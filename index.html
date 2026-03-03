@@ -6,10 +6,9 @@
 <title>Invoicer</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--ink:#1a1a2e;--ink-l:#4a4a6a;--ink-f:#9898b8;--paper:#f8f7f4;--paper-d:#eeece8;--accent:#c8783a;--al:#f5e8d8;--white:#fff;--danger:#c0392b;--ok:#27ae60;--border:#dddbd4;--pp:#003087;--pid:#f26522}
+:root{--ink:#1a1a2e;--ink-l:#4a4a6a;--ink-f:#9898b8;--paper:#f8f7f4;--paper-d:#eeece8;--accent:#c8783a;--al:#f5e8d8;--white:#fff;--danger:#c0392b;--ok:#27ae60;--border:#dddbd4}
 body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;font-size:14px;line-height:1.5}
 .app{display:flex;min-height:100vh}
 .sb{width:220px;min-width:220px;background:var(--ink);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100}
@@ -53,20 +52,20 @@ input:focus,textarea:focus,select:focus{border-color:var(--accent)}
 textarea{resize:vertical}
 .mo{display:none;position:fixed;inset:0;background:rgba(26,26,46,.5);z-index:200;align-items:center;justify-content:center}
 .mo.on{display:flex}
-.md{background:var(--white);border-radius:12px;width:600px;max-width:96vw;max-height:92vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.md{background:var(--white);border-radius:12px;width:620px;max-width:96vw;max-height:92vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
 .mh{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 16px;border-bottom:1px solid var(--border)}
 .mt{font-family:'DM Serif Display',serif;font-size:18px}
 .mb2{padding:24px}.mf{display:flex;justify-content:flex-end;gap:10px;padding:16px 24px;border-top:1px solid var(--border)}
 .lit{width:100%;border-collapse:collapse;margin-bottom:8px}
-.lit th{font-size:11px;font-weight:600;color:var(--ink-f);text-transform:uppercase;letter-spacing:.5px;padding:6px 6px;border-bottom:1px solid var(--border);text-align:left}
-.lir td{padding:5px 4px;border-bottom:none;vertical-align:top}
-.lir td input,.lir td textarea{font-size:13px;padding:7px 9px}
-.c-desc{width:22%}.c-det{width:34%}.c-qty{width:9%}.c-rate{width:12%}
-.c-amt{width:12%;text-align:right;padding-top:9px!important;font-weight:500;font-size:13px;color:var(--ink-l)}.c-del{width:5%;text-align:center}
-.det-ta{min-height:56px;font-size:12.5px!important;line-height:1.5}
+.lit th{font-size:11px;font-weight:600;color:var(--ink-f);text-transform:uppercase;letter-spacing:.5px;padding:6px 4px;border-bottom:1px solid var(--border);text-align:left}
+.lir td{padding:4px 3px;border-bottom:none;vertical-align:top}
+.lir td input,.lir td textarea{font-size:12.5px;padding:6px 8px}
+.c-ld{width:12%}.c-desc{width:17%}.c-det{width:29%}.c-qty{width:8%}.c-rate{width:11%}
+.c-amt{width:11%;text-align:right;padding-top:8px!important;font-weight:500;font-size:13px;color:var(--ink-l)}.c-del{width:4%;text-align:center}
+.det-ta{min-height:52px;font-size:12px!important;line-height:1.5}
 .li-tot{display:flex;justify-content:flex-end;align-items:center;gap:16px;padding:12px 4px 4px;border-top:1px solid var(--border);margin-top:6px}
-.li-tot-lbl{font-size:13px;color:var(--ink-f)}
-.li-tot-val{font-family:'DM Serif Display',serif;font-size:22px;min-width:100px;text-align:right}
+.li-tot-lbl{font-size:13px;font-weight:600;color:var(--ink-l)}
+.li-tot-val{font-family:'DM Serif Display',serif;font-size:22px;min-width:100px;text-align:right;color:var(--accent)}
 .svc-wrap{position:relative}
 .svc-drop{position:absolute;top:100%;left:0;right:0;background:#fff;border:1.5px solid var(--border);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:50;max-height:200px;overflow-y:auto;display:none}
 .svc-drop.on{display:block}
@@ -74,44 +73,8 @@ textarea{resize:vertical}
 .svc-opt:hover{background:var(--paper)}
 .svc-opt-r{font-size:12px;color:var(--ink-f)}
 .svc-none{padding:9px 14px;font-size:13px;color:var(--ink-f);font-style:italic}
-.ipw{background:#e8e6e0;padding:32px;border-radius:10px}
-#iprint{background:#fff;padding:48px 52px;max-width:720px;margin:0 auto;box-shadow:0 4px 24px rgba(0,0,0,.1)}
-.ih{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:40px}
-.ibr{font-family:'DM Serif Display',serif;font-size:26px}
-.ibs{font-size:12px;color:var(--ink-f);margin-top:2px}
-.itp{font-family:'DM Serif Display',serif;font-size:32px;color:var(--accent);letter-spacing:-1px}
-.inm{font-size:13px;color:var(--ink-f);margin-top:4px}
-.ipar{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border)}
-.ipl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--ink-f);margin-bottom:6px}
-.ipn{font-weight:600;font-size:14px;margin-bottom:3px}
-.ipd{font-size:12.5px;color:var(--ink-l);line-height:1.6}
-.imet{display:flex;gap:32px}
-.iml{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--ink-f);margin-bottom:3px}
-.imv{font-size:13.5px;font-weight:500}
-.it{width:100%;border-collapse:collapse;margin-bottom:12px}
-.it th{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-f);padding:8px 0;border-bottom:1.5px solid var(--ink);text-align:left}
-.it th:last-child,.it td.ia{text-align:right}
-.it td{padding:10px 6px 10px 0;border-bottom:1px solid var(--paper-d);font-size:13px;vertical-align:top}
-.it tr:last-child td{border-bottom:none}
-.idn{font-weight:600;font-size:13px}
-.idt{font-size:12px;color:var(--ink-l);margin-top:3px;white-space:pre-line}
-.igr{display:flex;justify-content:flex-end;gap:20px;align-items:baseline;padding-top:12px;border-top:1.5px solid var(--ink);margin-top:4px}
-.igl{font-weight:600;font-size:14px;color:var(--ink-l)}
-.igv{font-family:'DM Serif Display',serif;font-size:26px;color:var(--accent)}
-.ipay{margin-top:22px;padding:16px 18px;background:#f9f8f5;border:1px solid var(--border);border-radius:8px}
-.ipayt{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--ink-f);margin-bottom:12px}
-.ipaygr{display:flex;flex-wrap:wrap;gap:10px}
-.ptile{padding:11px 14px;border-radius:7px;min-width:150px}
-.ptile-l{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px}
-.ptile-v{font-size:12.5px;font-weight:500;word-break:break-all}
-.ptile-v a{color:inherit}
-.pt-bsb{background:#eef2f7;color:var(--ink)}
-.pt-pid{background:#fef0e8;color:#b54d10}
-.pt-pp{background:#e8eef8;color:#002060}
-.inotes{margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
-.inotl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--ink-f);margin-bottom:6px}
-.inotv{font-size:12.5px;color:var(--ink-l);line-height:1.6}
-.ifoot{margin-top:36px;text-align:center;font-size:11px;color:var(--ink-f)}
+.nil{display:grid;grid-template-columns:1fr 290px;gap:24px;align-items:start}
+.nil .card{margin-bottom:20px}
 .pmc{border:1.5px solid var(--border);border-radius:8px;padding:16px 18px;margin-bottom:14px}
 .pmh{display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .plb{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
@@ -125,35 +88,99 @@ textarea{resize:vertical}
 .bql{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-f)}
 .bqp{font-size:12px;color:var(--ink-l);margin-top:2px}
 .brow{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--paper-d);font-size:13.5px}
-.brow:last-child{border-bottom:none}
-.brl{color:var(--ink-l)}
+.brow:last-child{border-bottom:none}.brl{color:var(--ink-l)}
 .es{text-align:center;padding:60px 20px;color:var(--ink-f)}
-.ei{font-size:36px;margin-bottom:12px}
 .et{font-size:16px;font-weight:500;color:var(--ink-l);margin-bottom:6px}
 .stitle{font-family:'DM Serif Display',serif;font-size:16px;margin-bottom:14px}
 .mb16{margin-bottom:16px}.mb24{margin-bottom:24px}
 .acts{display:flex;gap:6px;flex-wrap:wrap}
-.nil{display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start}
-.nil .card{margin-bottom:20px}
+
+/* ---- INVOICE PRINT STYLES ---- */
+.ipw{background:#d8d6d0;padding:36px;border-radius:10px}
+#iprint{background:#fff;width:100%;max-width:780px;margin:0 auto;box-shadow:0 4px 32px rgba(0,0,0,.15);font-family:'DM Sans',sans-serif;color:#1a1a1a;font-size:13px}
+.ip-top{padding:32px 40px 0}
+.ip-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px}
+.ip-biz-name{font-size:17px;font-weight:700;margin-bottom:5px;color:#111}
+.ip-biz-sub{font-size:11.5px;color:#555;line-height:1.8}
+.ip-logo{max-height:80px;max-width:180px;object-fit:contain;display:block}
+.ip-title-bar{display:flex;justify-content:space-between;align-items:center;border-top:2.5px solid #1a1a1a;border-bottom:1px solid #ccc;padding:10px 0;margin-bottom:20px}
+.ip-title{font-size:26px;font-weight:700;letter-spacing:2px;color:#1a1a1a}
+.ip-title-num{font-size:12px;color:#777;font-weight:500}
+.ip-parties{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;margin-bottom:24px}
+.ip-party{padding-right:20px}
+.ip-party-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#999;margin-bottom:6px}
+.ip-party-name{font-size:12.5px;font-weight:700;margin-bottom:2px;color:#111}
+.ip-party-addr{font-size:11.5px;color:#555;line-height:1.7}
+.ip-meta{display:flex;flex-direction:column;gap:3px}
+.ip-meta-row{display:flex;justify-content:space-between;gap:16px;font-size:11.5px}
+.ip-meta-k{color:#999;font-weight:600;text-transform:uppercase;font-size:9px;letter-spacing:.8px;padding-top:2px}
+.ip-meta-v{color:#111;font-weight:600;text-align:right}
+.ip-body{padding:0 40px}
+.ip-table{width:100%;border-collapse:collapse;margin-bottom:0}
+.ip-table th{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;padding:8px 6px 8px 0;border-top:1.5px solid #1a1a1a;border-bottom:1.5px solid #1a1a1a;text-align:left}
+.ip-table th.tr,.ip-table td.tr{text-align:right}
+.ip-table th.tc,.ip-table td.tc{text-align:center}
+.ip-table td{padding:10px 6px 10px 0;border-bottom:1px dashed #ddd;font-size:12px;vertical-align:top;color:#222}
+.ip-table tr:last-child td{border-bottom:none}
+.ip-act-name{font-weight:600;font-size:12.5px;color:#111}
+.ip-act-det{font-size:11.5px;color:#666;margin-top:3px;white-space:pre-line;line-height:1.5}
+.ip-foot{padding:0 40px}
+.ip-divider{border:none;border-top:1px dashed #ccc;margin:0}
+.ip-bottom{display:flex;justify-content:space-between;align-items:flex-end;padding:14px 40px 0}
+.ip-thanks{font-size:11.5px;color:#666;font-style:italic;max-width:320px;line-height:1.6}
+.ip-balance-box{text-align:right}
+.ip-bal-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#999;margin-bottom:3px}
+.ip-bal-val{font-size:22px;font-weight:700;color:#1a1a1a}
+.ip-payment{margin:16px 40px;padding:14px 18px;background:#f5f5f3;border:1px solid #ddd}
+.ip-pay-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#999;margin-bottom:10px}
+.ip-pay-grid{display:flex;flex-wrap:wrap;gap:24px}
+.ip-pay-item{}
+.ip-pay-item-k{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#aaa;margin-bottom:2px}
+.ip-pay-item-v{font-size:12px;font-weight:600;color:#222}
+.ip-pay-item-v a{color:#003087;text-decoration:none}
+.ip-ref{font-size:11px;color:#888;margin-top:10px;font-style:italic}
+.ip-page-foot{text-align:center;padding:14px 40px 20px;font-size:10.5px;color:#bbb;border-top:1px solid #eee;margin-top:16px}
+
+#lockscreen{position:fixed;inset:0;background:#1a1a2e;display:flex;align-items:center;justify-content:center;z-index:9999}
+#lockscreen.hide{display:none}
+.lk-box{background:#fff;border-radius:14px;padding:40px 44px;width:360px;box-shadow:0 24px 64px rgba(0,0,0,.4);text-align:center}
+.lk-logo{font-family:'DM Serif Display',serif;font-size:28px;color:#1a1a2e;margin-bottom:4px}
+.lk-logo span{color:#c8783a}
+.lk-sub{font-size:13px;color:#9898b8;margin-bottom:28px}
+.lk-inp{width:100%;padding:11px 14px;border:1.5px solid #dddbd4;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;text-align:center;letter-spacing:2px;margin-bottom:14px;transition:border-color .15s}
+.lk-inp:focus{border-color:#c8783a}
+.lk-btn{width:100%;padding:12px;background:#c8783a;color:#fff;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s}
+.lk-btn:hover{background:#b56830}
+.lk-err{font-size:12.5px;color:#c0392b;margin-top:10px;min-height:18px}
 </style>
 </head>
 <body>
+
+<div id="lockscreen">
+  <div class="lk-box">
+    <div class="lk-logo">Invoice<span>r</span></div>
+    <div class="lk-sub">QuickByte Solutions</div>
+    <input class="lk-inp" type="password" id="lk-pw" placeholder="Enter password" onkeydown="if(event.key==='Enter')checkPW()">
+    <button class="lk-btn" onclick="checkPW()">Unlock</button>
+    <div class="lk-err" id="lk-err"></div>
+  </div>
+</div>
+
 <div class="app">
 <aside class="sb">
   <div class="sb-logo"><h1>Invoice<span>r</span></h1></div>
   <nav class="sb-nav">
-    <div class="ni on" onclick="go('dashboard')"><span>&#9635;</span> Dashboard</div>
-    <div class="ni" onclick="go('invoices')"><span>&#128196;</span> Invoices</div>
-    <div class="ni" onclick="go('clients')"><span>&#128100;</span> Clients</div>
-    <div class="ni" onclick="go('services')"><span>&#128295;</span> Services</div>
-    <div class="ni" onclick="go('bas')"><span>&#128202;</span> BAS Report</div>
-    <div class="ni" onclick="go('settings')"><span>&#9881;</span> Settings</div>
+    <div class="ni on" onclick="go('dashboard')">&#9635; Dashboard</div>
+    <div class="ni" onclick="go('invoices')">&#128196; Invoices</div>
+    <div class="ni" onclick="go('clients')">&#128100; Clients</div>
+    <div class="ni" onclick="go('services')">&#128295; Services</div>
+    <div class="ni" onclick="go('bas')">&#128202; BAS Report</div>
+    <div class="ni" onclick="go('settings')">&#9881; Settings</div>
   </nav>
   <div class="sb-foot">Data saved in your browser</div>
 </aside>
 <main class="main">
 
-<!-- DASHBOARD -->
 <div id="dashboard" class="page on">
   <div class="ph">
     <div><div class="pt">Dashboard</div><div class="ps" id="dg"></div></div>
@@ -167,7 +194,6 @@ textarea{resize:vertical}
   <div class="card"><div class="stitle">Recent Invoices</div><div id="d-recent"></div></div>
 </div>
 
-<!-- INVOICES -->
 <div id="invoices" class="page">
   <div class="ph">
     <div><div class="pt">Invoices</div><div class="ps" id="inv-ct"></div></div>
@@ -176,14 +202,13 @@ textarea{resize:vertical}
   <div class="card"><div id="inv-list"></div></div>
 </div>
 
-<!-- NEW INVOICE -->
 <div id="new-invoice" class="page">
   <div class="ph">
     <div><div class="pt" id="ni-ttl">New Invoice</div></div>
     <div style="display:flex;gap:8px">
       <button class="btn bo" onclick="go('invoices')">Cancel</button>
       <button class="btn bo" onclick="saveInv('draft')">Save Draft</button>
-      <button class="btn bp" onclick="saveInv('sent')">Save &amp; Send</button>
+      <button class="btn bp" onclick="saveInv('sent')">Save &amp; Mark Sent</button>
     </div>
   </div>
   <div class="nil">
@@ -192,13 +217,17 @@ textarea{resize:vertical}
         <div class="stitle">Bill To</div>
         <div class="fg">
           <div class="fgr"><label>Select Saved Client</label>
-            <select id="ni-cl" onchange="fillCl()"><option value="">-- Pick a saved client or fill below --</option></select>
+            <select id="ni-cl" onchange="fillCl()"><option value="">-- Select a saved client --</option></select>
           </div>
           <div class="fg fg2">
-            <div class="fgr"><label>Client Name *</label><input type="text" id="ni-cn" placeholder="Acme Corp" oninput="upPrev()"></div>
-            <div class="fgr"><label>Email</label><input type="email" id="ni-ce" placeholder="billing@acme.com"></div>
+            <div class="fgr"><label>Company Name *</label><input type="text" id="ni-cn" placeholder="Cement Aid" oninput="upPrev()"></div>
+            <div class="fgr"><label>Contact Name</label><input type="text" id="ni-cct" placeholder="Sandra Guo"></div>
           </div>
-          <div class="fgr"><label>Address</label><textarea id="ni-ca" rows="2" placeholder="123 Street, City"></textarea></div>
+          <div class="fg fg2">
+            <div class="fgr"><label>Email</label><input type="email" id="ni-ce" placeholder="billing@client.com"></div>
+            <div class="fgr"><label>Phone</label><input type="text" id="ni-cph" placeholder=""></div>
+          </div>
+          <div class="fgr"><label>Address</label><textarea id="ni-ca" rows="2" placeholder="80 O'Neill St, Lilyfield NSW 2040"></textarea></div>
           <div style="display:flex;align-items:center;gap:10px">
             <input type="checkbox" id="ni-sc" style="width:auto">
             <label for="ni-sc" style="margin:0;font-size:13px;cursor:pointer;font-weight:400;color:var(--ink-l)">Save this client for future invoices</label>
@@ -212,16 +241,20 @@ textarea{resize:vertical}
           <div class="fgr"><label>Issue Date</label><input type="date" id="ni-dt"></div>
           <div class="fgr"><label>Due Date</label><input type="date" id="ni-due" oninput="upPrev()"></div>
         </div>
+        <div class="fg fg2" style="margin-top:14px">
+          <div class="fgr"><label>Terms</label><input type="text" id="ni-terms" placeholder="Net 15"></div>
+          <div class="fgr"><label>PO / Reference</label><input type="text" id="ni-ref"></div>
+        </div>
       </div>
       <div class="card mb16">
         <div class="stitle">Line Items</div>
         <div id="li-wrap"></div>
         <button class="btn bg bsm" onclick="addLI()" style="margin-top:8px">+ Add Line</button>
-        <div class="li-tot"><span class="li-tot-lbl">Total</span><span class="li-tot-val" id="ni-tot">$0.00</span></div>
+        <div class="li-tot"><span class="li-tot-lbl">BALANCE DUE</span><span class="li-tot-val" id="ni-tot">A$0.00</span></div>
       </div>
       <div class="card">
-        <div class="stitle">Notes</div>
-        <textarea id="ni-notes" rows="3" placeholder="Payment terms, thank you message..."></textarea>
+        <div class="stitle">Footer Message</div>
+        <textarea id="ni-notes" rows="2" placeholder="Thank you for choosing QuickByte Solutions!&#10;We appreciate your business!"></textarea>
       </div>
     </div>
     <div>
@@ -233,7 +266,7 @@ textarea{resize:vertical}
           <div><strong>#:</strong> <span id="pv-num">--</span></div>
           <div><strong>Due:</strong> <span id="pv-due">--</span></div>
           <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">
-            <strong>Total:</strong> <span id="pv-tot" style="color:var(--accent);font-size:16px;font-family:'DM Serif Display',serif">$0.00</span>
+            <strong>Balance Due:</strong> <span id="pv-tot" style="color:var(--accent);font-size:15px;font-weight:700">A$0.00</span>
           </div>
         </div>
         <div id="pv-pay"></div>
@@ -242,7 +275,6 @@ textarea{resize:vertical}
   </div>
 </div>
 
-<!-- VIEW INVOICE -->
 <div id="view-invoice" class="page">
   <div class="ph">
     <div><div class="pt">Invoice</div></div>
@@ -256,7 +288,6 @@ textarea{resize:vertical}
   <div class="ipw"><div id="iprint"></div></div>
 </div>
 
-<!-- CLIENTS -->
 <div id="clients" class="page">
   <div class="ph">
     <div><div class="pt">Clients</div><div class="ps" id="cl-ct"></div></div>
@@ -265,62 +296,76 @@ textarea{resize:vertical}
   <div class="card"><div id="cl-list"></div></div>
 </div>
 
-<!-- SERVICES -->
 <div id="services" class="page">
   <div class="ph">
-    <div><div class="pt">Services</div><div class="ps">Saved templates -- select them when creating invoices</div></div>
+    <div><div class="pt">Services</div><div class="ps">Templates for quick invoice filling</div></div>
     <button class="btn bp" onclick="openSM()">+ Add Service</button>
   </div>
   <div class="card"><div id="sv-list"></div></div>
 </div>
 
-<!-- BAS -->
 <div id="bas" class="page">
-  <div class="ph"><div><div class="pt">BAS Report</div><div class="ps">Business Activity Statement -- income summary</div></div></div>
+  <div class="ph"><div><div class="pt">BAS Report</div><div class="ps">Business Activity Statement</div></div></div>
   <div class="card mb24"><div class="stitle">Select Quarter</div><div class="bqg" id="bas-qs"></div></div>
   <div class="card"><div id="bas-res"></div></div>
 </div>
 
-<!-- SETTINGS -->
 <div id="settings" class="page">
   <div class="ph"><div><div class="pt">Settings</div></div><button class="btn bp" onclick="saveSets()">Save Changes</button></div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:920px;align-items:start">
-    <div class="card">
-      <div class="stitle mb16">Your Business Details</div>
-      <div class="fg">
-        <div class="fgr"><label>Business / Trading Name</label><input type="text" id="s-name"></div>
-        <div class="fgr"><label>ABN</label><input type="text" id="s-abn"></div>
-        <div class="fgr"><label>Email</label><input type="email" id="s-email"></div>
-        <div class="fgr"><label>Phone</label><input type="text" id="s-phone"></div>
-        <div class="fgr"><label>Address</label><textarea id="s-addr" rows="2"></textarea></div>
-        <div class="fgr"><label>Default Invoice Notes</label><textarea id="s-notes" rows="2" placeholder="e.g. Payment due within 14 days."></textarea></div>
-        <div class="fg fg2">
-          <div class="fgr"><label>Invoice # Prefix</label><input type="text" id="s-pfx" placeholder="INV-"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:960px;align-items:start">
+    <div>
+      <div class="card mb16">
+        <div class="stitle mb16">Business Details</div>
+        <div class="fg">
+          <div class="fgr"><label>Business Name</label><input type="text" id="s-name"></div>
+          <div class="fgr"><label>ABN</label><input type="text" id="s-abn"></div>
+          <div class="fgr"><label>Email</label><input type="email" id="s-email"></div>
+          <div class="fgr"><label>Phone</label><input type="text" id="s-phone"></div>
+          <div class="fgr"><label>Address</label><textarea id="s-addr" rows="2"></textarea></div>
+          <div class="fgr"><label>Default Footer Message</label><textarea id="s-notes" rows="2"></textarea></div>
+          <div class="fg fg2">
+            <div class="fgr"><label>Invoice # Prefix</label><input type="text" id="s-pfx" placeholder="INV-"></div>
+            <div class="fgr"><label>Default Terms</label><input type="text" id="s-terms" placeholder="Net 15"></div>
+          </div>
           <div class="fgr"><label>FY Start</label><select id="s-fy"><option value="7">July (AU FY)</option><option value="1">January</option></select></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="stitle mb16">Logo</div>
+        <p style="font-size:13px;color:var(--ink-f);margin-bottom:14px">Appears top-right on every invoice and PDF.</p>
+        <div class="fgr">
+          <label>Upload Logo</label>
+          <input type="file" id="s-logo-inp" accept="image/*" onchange="handleLogo(this)" style="padding:6px">
+        </div>
+        <div id="s-logo-wrap" style="margin-top:12px;display:none">
+          <img id="s-logo-prev" style="max-height:64px;max-width:160px;border-radius:4px;border:1px solid var(--border);padding:4px" alt="logo">
+          <div style="margin-top:8px"><button class="bdg bsm" onclick="removeLogo()">Remove Logo</button></div>
         </div>
       </div>
     </div>
     <div class="card">
       <div class="stitle mb16">Payment Methods</div>
-      <p style="font-size:13px;color:var(--ink-f);margin-bottom:20px">Fill in what you accept -- shown on every invoice.</p>
+      <p style="font-size:13px;color:var(--ink-f);margin-bottom:20px">Shown on every invoice.</p>
       <div class="pmc">
-        <div class="pmh"><div class="plb" style="background:#eef2f7">&#x1F3E6;</div><div><div class="pmn">Bank Transfer</div><div class="pmd">BSB &amp; Account Number</div></div></div>
+        <div class="pmh"><div class="plb" style="background:#eef2f7">&#x1F3E6;</div><div><div class="pmn">Bank Transfer</div><div class="pmd">BSB and Account Number</div></div></div>
         <div class="fg fg2" style="margin-bottom:10px">
-          <div class="fgr"><label>BSB</label><input type="text" id="s-bsb" placeholder="000-000"></div>
-          <div class="fgr"><label>Account Number</label><input type="text" id="s-acc" placeholder="12345678"></div>
+          <div class="fgr"><label>Account Name</label><input type="text" id="s-acn"></div>
+          <div class="fgr"><label>BSB</label><input type="text" id="s-bsb" placeholder="923-100"></div>
         </div>
-        <div class="fgr"><label>Account Name</label><input type="text" id="s-acn"></div>
+        <div class="fgr"><label>Account Number</label><input type="text" id="s-acc" placeholder="314144175"></div>
       </div>
       <div class="pmc">
-        <div class="pmh"><div class="plb" style="background:#fef0e8">&#x1F536;</div><div><div class="pmn" style="color:var(--pid)">PayID</div><div class="pmd">Instant transfers -- no BSB needed</div></div></div>
-        <div class="fgr"><label>Your PayID (mobile, email, or ABN)</label><input type="text" id="s-pid" placeholder="04XX XXX XXX"></div>
+        <div class="pmh"><div class="plb" style="background:#fef0e8">&#x1F536;</div><div><div class="pmn">PayID</div><div class="pmd">Mobile, email, or ABN</div></div></div>
+        <div class="fg fg2">
+          <div class="fgr"><label>PayID</label><input type="text" id="s-pid" placeholder="0477 111 272"></div>
+          <div class="fgr"><label>PayID Name</label><input type="text" id="s-pidn" placeholder="R Tjoeng"></div>
+        </div>
       </div>
       <div class="pmc" style="margin-bottom:0">
-        <div class="pmh"><div class="plb" style="background:#dce8f5">P</div><div><div class="pmn" style="color:var(--pp)">PayPal</div><div class="pmd">Clients click a direct payment link</div></div></div>
+        <div class="pmh"><div class="plb" style="background:#dce8f5">P</div><div><div class="pmn">PayPal</div><div class="pmd">Direct payment link</div></div></div>
         <div class="fgr">
           <label>PayPal.me username</label>
           <div class="pfw"><span class="pfl">paypal.me/</span><input type="text" id="s-ppl" placeholder="yourusername"></div>
-          <span style="font-size:11.5px;color:var(--ink-f);margin-top:4px">Invoice includes a pre-filled link for the exact amount.</span>
         </div>
       </div>
     </div>
@@ -334,20 +379,21 @@ textarea{resize:vertical}
 <div class="mo" id="cm">
   <div class="md">
     <div class="mh"><div class="mt" id="cm-ttl">Add Client</div><button class="btn bg" onclick="closeMo('cm')">X</button></div>
-    <div class="mb2">
-      <div class="fg">
-        <div class="fg fg2">
-          <div class="fgr"><label>Name *</label><input type="text" id="cm-n"></div>
-          <div class="fgr"><label>Email</label><input type="email" id="cm-e"></div>
-        </div>
-        <div class="fgr"><label>Address</label><textarea id="cm-a" rows="2"></textarea></div>
-        <div class="fg fg2">
-          <div class="fgr"><label>Phone</label><input type="text" id="cm-p"></div>
-          <div class="fgr"><label>ABN</label><input type="text" id="cm-abn"></div>
-        </div>
-        <div class="fgr"><label>Notes</label><textarea id="cm-nt" rows="2"></textarea></div>
+    <div class="mb2"><div class="fg">
+      <div class="fg fg2">
+        <div class="fgr"><label>Company Name *</label><input type="text" id="cm-n"></div>
+        <div class="fgr"><label>Contact Name</label><input type="text" id="cm-ct"></div>
       </div>
-    </div>
+      <div class="fg fg2">
+        <div class="fgr"><label>Email</label><input type="email" id="cm-e"></div>
+        <div class="fgr"><label>Phone</label><input type="text" id="cm-ph"></div>
+      </div>
+      <div class="fgr"><label>Address</label><textarea id="cm-a" rows="2"></textarea></div>
+      <div class="fg fg2">
+        <div class="fgr"><label>ABN</label><input type="text" id="cm-abn"></div>
+        <div class="fgr"><label>Notes</label><input type="text" id="cm-nt"></div>
+      </div>
+    </div></div>
     <div class="mf"><button class="btn bo" onclick="closeMo('cm')">Cancel</button><button class="btn bp" onclick="saveCl()">Save Client</button></div>
   </div>
 </div>
@@ -356,502 +402,586 @@ textarea{resize:vertical}
 <div class="mo" id="sm">
   <div class="md">
     <div class="mh"><div class="mt" id="sm-ttl">Add Service</div><button class="btn bg" onclick="closeMo('sm')">X</button></div>
-    <div class="mb2">
-      <div class="fg">
-        <div class="fgr"><label>Service Name *</label><input type="text" id="sm-n" placeholder="e.g. IT Support, Web Design"></div>
-        <div class="fgr"><label>Default Hourly / Flat Rate ($)</label><input type="number" id="sm-r" placeholder="0.00" min="0" step="0.01"></div>
-        <div class="fgr"><label>Default Details (optional)</label><textarea id="sm-d" rows="3" placeholder="e.g. On-site support"></textarea></div>
-      </div>
-    </div>
+    <div class="mb2"><div class="fg">
+      <div class="fgr"><label>Service Name *</label><input type="text" id="sm-n" placeholder="e.g. IT Support"></div>
+      <div class="fgr"><label>Default Rate ($)</label><input type="number" id="sm-r" placeholder="0.00" min="0" step="0.01"></div>
+      <div class="fgr"><label>Default Details (optional)</label><textarea id="sm-d" rows="3" placeholder="e.g. Monthly IT support"></textarea></div>
+    </div></div>
     <div class="mf"><button class="btn bo" onclick="closeMo('sm')">Cancel</button><button class="btn bp" onclick="saveSvc()">Save Service</button></div>
   </div>
 </div>
 
 <script>
-(function() {
-  emailjs.init('NoiODEMsaG3jlA-vo');
-})();
-
-var D = {
-  cfg: {name:'',abn:'',email:'',phone:'',addr:'',notes:'',pfx:'INV-',fy:'7',bsb:'',acc:'',acn:'',pid:'',ppl:''},
-  clients: [], invoices: [], services: [],
-  _eCl: null, _eSv: null, _eInv: null, _vInv: null,
-  _li: [], _bq: null, _bqA: []
+var D={
+  cfg:{name:'',abn:'',email:'',phone:'',addr:'',notes:'',pfx:'INV-',terms:'Net 15',fy:'7',bsb:'',acc:'',acn:'',pid:'',pidn:'',ppl:'',logo:''},
+  clients:[],invoices:[],services:[],
+  _eCl:null,_eSv:null,_eInv:null,_vInv:null,_li:[],_bq:null,_bqA:[]
 };
 
-function load() {
-  try {
-    var r = localStorage.getItem('inv4');
-    if (r) {
-      var p = JSON.parse(r);
-      D.cfg = p.cfg || D.cfg;
-      D.clients = p.clients || [];
-      D.invoices = p.invoices || [];
-      D.services = p.services || [];
-    }
-  } catch(e) {}
+function load(){
+  try{var r=localStorage.getItem('inv4');if(r){var p=JSON.parse(r);D.cfg=Object.assign({},D.cfg,p.cfg||{});D.clients=p.clients||[];D.invoices=p.invoices||[];D.services=p.services||[];}}catch(e){}
 }
-function save() {
-  try { localStorage.setItem('inv4', JSON.stringify({cfg:D.cfg, clients:D.clients, invoices:D.invoices, services:D.services})); } catch(e) {}
-}
+function save(){try{localStorage.setItem('inv4',JSON.stringify({cfg:D.cfg,clients:D.clients,invoices:D.invoices,services:D.services}));}catch(e){}}
 
-var PAGES = ['dashboard','invoices','new-invoice','view-invoice','clients','services','bas','settings'];
-var NAV = [0,1,1,1,2,3,4,5];
-function go(id) {
-  PAGES.forEach(function(p) { document.getElementById(p).classList.remove('on'); });
-  document.querySelectorAll('.ni').forEach(function(n) { n.classList.remove('on'); });
+function handleLogo(inp){
+  var file=inp.files[0];if(!file)return;
+  var rd=new FileReader();
+  rd.onload=function(ev){
+    D.cfg.logo=ev.target.result;save();
+    showLogoPreview(ev.target.result);
+    toast('Logo saved!');
+  };
+  rd.readAsDataURL(file);
+}
+function showLogoPreview(src){
+  var w=document.getElementById('s-logo-wrap');
+  var img=document.getElementById('s-logo-prev');
+  if(src){img.src=src;w.style.display='block';}else{w.style.display='none';}
+}
+function removeLogo(){D.cfg.logo='';save();showLogoPreview('');document.getElementById('s-logo-inp').value='';toast('Logo removed.');}
+
+var PAGES=['dashboard','invoices','new-invoice','view-invoice','clients','services','bas','settings'];
+var NAV=[0,1,1,1,2,3,4,5];
+function go(id){
+  PAGES.forEach(function(p){document.getElementById(p).classList.remove('on');});
+  document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('on');});
   document.getElementById(id).classList.add('on');
-  var i = PAGES.indexOf(id);
-  if (i >= 0) document.querySelectorAll('.ni')[NAV[i]].classList.add('on');
-  if (id === 'dashboard') rDash();
-  if (id === 'invoices') rInvs();
-  if (id === 'clients') rCls();
-  if (id === 'services') rSvs();
-  if (id === 'bas') rBAS();
-  if (id === 'settings') lSets();
-  if (id === 'new-invoice') initNI();
+  var i=PAGES.indexOf(id);if(i>=0)document.querySelectorAll('.ni')[NAV[i]].classList.add('on');
+  if(id==='dashboard')rDash();
+  if(id==='invoices')rInvs();
+  if(id==='clients')rCls();
+  if(id==='services')rSvs();
+  if(id==='bas')rBAS();
+  if(id==='settings')lSets();
+  if(id==='new-invoice')initNI();
 }
 
-function lSets() {
-  var c = D.cfg;
-  ['name','abn','email','phone'].forEach(function(k) { var el = document.getElementById('s-'+k); if(el) el.value = c[k] || ''; });
-  document.getElementById('s-addr').value = c.addr || '';
-  document.getElementById('s-notes').value = c.notes || '';
-  document.getElementById('s-pfx').value = c.pfx || 'INV-';
-  document.getElementById('s-fy').value = c.fy || '7';
-  ['bsb','acc','acn','pid','ppl'].forEach(function(k) { var el = document.getElementById('s-'+k); if(el) el.value = c[k] || ''; });
+function lSets(){
+  var c=D.cfg;
+  ['name','abn','email','phone'].forEach(function(k){var el=document.getElementById('s-'+k);if(el)el.value=c[k]||'';});
+  document.getElementById('s-addr').value=c.addr||'';
+  document.getElementById('s-notes').value=c.notes||'';
+  document.getElementById('s-pfx').value=c.pfx||'INV-';
+  document.getElementById('s-terms').value=c.terms||'Net 15';
+  document.getElementById('s-fy').value=c.fy||'7';
+  ['bsb','acc','acn','pid','pidn','ppl'].forEach(function(k){var el=document.getElementById('s-'+k);if(el)el.value=c[k]||'';});
+  showLogoPreview(c.logo||'');
 }
-function saveSets() {
-  ['name','abn','email','phone'].forEach(function(k) { var el = document.getElementById('s-'+k); if(el) D.cfg[k] = el.value.trim(); });
-  D.cfg.addr = document.getElementById('s-addr').value.trim();
-  D.cfg.notes = document.getElementById('s-notes').value.trim();
-  D.cfg.pfx = document.getElementById('s-pfx').value.trim() || 'INV-';
-  D.cfg.fy = document.getElementById('s-fy').value;
-  ['bsb','acc','acn','pid','ppl'].forEach(function(k) { var el = document.getElementById('s-'+k); if(el) D.cfg[k] = el.value.trim(); });
-  save(); toast('Settings saved!');
+function saveSets(){
+  ['name','abn','email','phone'].forEach(function(k){var el=document.getElementById('s-'+k);if(el)D.cfg[k]=el.value.trim();});
+  D.cfg.addr=document.getElementById('s-addr').value.trim();
+  D.cfg.notes=document.getElementById('s-notes').value.trim();
+  D.cfg.pfx=document.getElementById('s-pfx').value.trim()||'INV-';
+  D.cfg.terms=document.getElementById('s-terms').value.trim();
+  D.cfg.fy=document.getElementById('s-fy').value;
+  ['bsb','acc','acn','pid','pidn','ppl'].forEach(function(k){var el=document.getElementById('s-'+k);if(el)D.cfg[k]=el.value.trim();});
+  save();toast('Settings saved!');
 }
 
-function openCM(id) {
-  D._eCl = id || null;
-  document.getElementById('cm-ttl').textContent = id ? 'Edit Client' : 'Add Client';
-  if (id) {
-    var c = D.clients.find(function(x) { return x.id === id; });
-    document.getElementById('cm-n').value = c.name || '';
-    document.getElementById('cm-e').value = c.email || '';
-    document.getElementById('cm-a').value = c.addr || '';
-    document.getElementById('cm-p').value = c.phone || '';
-    document.getElementById('cm-abn').value = c.abn || '';
-    document.getElementById('cm-nt').value = c.notes || '';
-  } else {
-    ['cm-n','cm-e','cm-a','cm-p','cm-abn','cm-nt'].forEach(function(f) { document.getElementById(f).value = ''; });
+function openCM(id){
+  D._eCl=id||null;
+  document.getElementById('cm-ttl').textContent=id?'Edit Client':'Add Client';
+  if(id){
+    var c=D.clients.find(function(x){return x.id===id;});
+    document.getElementById('cm-n').value=c.name||'';
+    document.getElementById('cm-ct').value=c.ct||'';
+    document.getElementById('cm-e').value=c.email||'';
+    document.getElementById('cm-ph').value=c.phone||'';
+    document.getElementById('cm-a').value=c.addr||'';
+    document.getElementById('cm-abn').value=c.abn||'';
+    document.getElementById('cm-nt').value=c.notes||'';
+  }else{
+    ['cm-n','cm-ct','cm-e','cm-ph','cm-a','cm-abn','cm-nt'].forEach(function(f){document.getElementById(f).value='';});
   }
   document.getElementById('cm').classList.add('on');
 }
-function saveCl() {
-  var n = document.getElementById('cm-n').value.trim();
-  if (!n) { alert('Please enter a name.'); return; }
-  var c = {id: D._eCl || uid(), name: n, email: gv('cm-e'), addr: gv('cm-a'), phone: gv('cm-p'), abn: gv('cm-abn'), notes: gv('cm-nt')};
-  if (D._eCl) {
-    var i = D.clients.findIndex(function(x) { return x.id === D._eCl; });
-    D.clients[i] = Object.assign({}, D.clients[i], c);
-  } else {
-    D.clients.push(c);
-  }
-  save(); closeMo('cm'); rCls(); toast('Client saved!');
+function saveCl(){
+  var n=document.getElementById('cm-n').value.trim();if(!n){alert('Please enter a name.');return;}
+  var c={id:D._eCl||uid(),name:n,ct:gv('cm-ct'),email:gv('cm-e'),phone:gv('cm-ph'),addr:gv('cm-a'),abn:gv('cm-abn'),notes:gv('cm-nt')};
+  if(D._eCl){var i=D.clients.findIndex(function(x){return x.id===D._eCl;});D.clients[i]=Object.assign({},D.clients[i],c);}
+  else D.clients.push(c);
+  save();closeMo('cm');rCls();toast('Client saved!');
 }
-function delCl(id) {
-  if (!confirm('Delete client?')) return;
-  D.clients = D.clients.filter(function(c) { return c.id !== id; });
-  save(); rCls();
-}
-function rCls() {
-  document.getElementById('cl-ct').textContent = D.clients.length + ' client' + (D.clients.length !== 1 ? 's' : '');
-  var el = document.getElementById('cl-list');
-  if (!D.clients.length) { el.innerHTML = es('No clients yet', 'Add your first client or save one from an invoice'); return; }
-  var rows = D.clients.map(function(c) {
-    return '<tr><td><strong>' + e(c.name) + '</strong></td><td>' + (c.email||'--') + '</td><td>' + (c.phone||'--') + '</td><td>' + (c.abn||'--') + '</td>' +
-    '<td><div class="acts"><button class="btn bg bsm" onclick="openCM(\'' + c.id + '\')">Edit</button><button class="bdg" onclick="delCl(\'' + c.id + '\')">Delete</button></div></td></tr>';
+function delCl(id){if(!confirm('Delete client?'))return;D.clients=D.clients.filter(function(c){return c.id!==id;});save();rCls();}
+function rCls(){
+  document.getElementById('cl-ct').textContent=D.clients.length+' client'+(D.clients.length!==1?'s':'');
+  var el=document.getElementById('cl-list');
+  if(!D.clients.length){el.innerHTML=es('No clients yet','Add your first client');return;}
+  var rows=D.clients.map(function(c){
+    return '<tr><td><strong>'+e(c.name)+'</strong>'+(c.ct?'<br><span style="font-size:12px;color:var(--ink-f)">'+e(c.ct)+'</span>':'')+'</td>'+
+    '<td>'+e(c.email||'--')+'</td><td>'+e(c.phone||'--')+'</td><td>'+e(c.abn||'--')+'</td>'+
+    '<td><div class="acts"><button class="btn bg bsm" onclick="openCM(\''+c.id+'\')">Edit</button><button class="bdg" onclick="delCl(\''+c.id+'\')">Delete</button></div></td></tr>';
   }).join('');
-  el.innerHTML = '<table><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>ABN</th><th></th></tr></thead><tbody>' + rows + '</tbody></table>';
+  el.innerHTML='<table><thead><tr><th>Company</th><th>Email</th><th>Phone</th><th>ABN</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';
 }
 
-function openSM(id) {
-  D._eSv = id || null;
-  document.getElementById('sm-ttl').textContent = id ? 'Edit Service' : 'Add Service';
-  if (id) {
-    var s = D.services.find(function(x) { return x.id === id; });
-    document.getElementById('sm-n').value = s.name || '';
-    document.getElementById('sm-r').value = s.rate || '';
-    document.getElementById('sm-d').value = s.det || '';
-  } else {
-    ['sm-n','sm-r','sm-d'].forEach(function(f) { document.getElementById(f).value = ''; });
-  }
+function openSM(id){
+  D._eSv=id||null;
+  document.getElementById('sm-ttl').textContent=id?'Edit Service':'Add Service';
+  if(id){var s=D.services.find(function(x){return x.id===id;});document.getElementById('sm-n').value=s.name||'';document.getElementById('sm-r').value=s.rate||'';document.getElementById('sm-d').value=s.det||'';}
+  else{['sm-n','sm-r','sm-d'].forEach(function(f){document.getElementById(f).value='';});}
   document.getElementById('sm').classList.add('on');
 }
-function saveSvc() {
-  var n = document.getElementById('sm-n').value.trim();
-  if (!n) { alert('Please enter a service name.'); return; }
-  var s = {id: D._eSv || uid(), name: n, rate: parseFloat(document.getElementById('sm-r').value) || 0, det: document.getElementById('sm-d').value.trim()};
-  if (D._eSv) {
-    var i = D.services.findIndex(function(x) { return x.id === D._eSv; });
-    D.services[i] = Object.assign({}, D.services[i], s);
-  } else {
-    D.services.push(s);
-  }
-  save(); closeMo('sm'); rSvs(); toast('Service saved!');
+function saveSvc(){
+  var n=document.getElementById('sm-n').value.trim();if(!n){alert('Please enter a service name.');return;}
+  var s={id:D._eSv||uid(),name:n,rate:parseFloat(document.getElementById('sm-r').value)||0,det:document.getElementById('sm-d').value.trim()};
+  if(D._eSv){var i=D.services.findIndex(function(x){return x.id===D._eSv;});D.services[i]=Object.assign({},D.services[i],s);}
+  else D.services.push(s);
+  save();closeMo('sm');rSvs();toast('Service saved!');
 }
-function delSvc(id) {
-  if (!confirm('Delete service?')) return;
-  D.services = D.services.filter(function(s) { return s.id !== id; });
-  save(); rSvs();
-}
-function rSvs() {
-  var el = document.getElementById('sv-list');
-  if (!D.services.length) { el.innerHTML = es('No services yet', 'Add your common services to quickly fill invoices'); return; }
-  var rows = D.services.map(function(s) {
-    return '<tr><td><strong>' + e(s.name) + '</strong></td><td>' + (s.rate ? fmt(s.rate) : '-') + '</td>' +
-    '<td style="font-size:12.5px;color:var(--ink-f);white-space:pre-wrap">' + (e(s.det) || '-') + '</td>' +
-    '<td><div class="acts"><button class="btn bg bsm" onclick="openSM(\'' + s.id + '\')">Edit</button><button class="bdg" onclick="delSvc(\'' + s.id + '\')">Delete</button></div></td></tr>';
+function delSvc(id){if(!confirm('Delete service?'))return;D.services=D.services.filter(function(s){return s.id!==id;});save();rSvs();}
+function rSvs(){
+  var el=document.getElementById('sv-list');
+  if(!D.services.length){el.innerHTML=es('No services yet','Add common services to speed up invoicing');return;}
+  var rows=D.services.map(function(s){
+    return '<tr><td><strong>'+e(s.name)+'</strong></td><td>'+(s.rate?fmt(s.rate):'-')+'</td>'+
+    '<td style="font-size:12.5px;color:var(--ink-f);white-space:pre-wrap">'+(e(s.det)||'-')+'</td>'+
+    '<td><div class="acts"><button class="btn bg bsm" onclick="openSM(\''+s.id+'\')">Edit</button><button class="bdg" onclick="delSvc(\''+s.id+'\')">Delete</button></div></td></tr>';
   }).join('');
-  el.innerHTML = '<table><thead><tr><th>Service</th><th>Default Rate</th><th>Default Details</th><th></th></tr></thead><tbody>' + rows + '</tbody></table>';
+  el.innerHTML='<table><thead><tr><th>Service</th><th>Default Rate</th><th>Default Details</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';
 }
 
-function initNI(eid) {
-  D._eInv = eid || null;
-  document.getElementById('ni-ttl').textContent = eid ? 'Edit Invoice' : 'New Invoice';
-  var sel = document.getElementById('ni-cl');
-  sel.innerHTML = '<option value="">-- Pick a saved client or fill below --</option>' +
-    D.clients.map(function(c) { return '<option value="' + c.id + '">' + e(c.name) + '</option>'; }).join('');
-  if (eid) {
-    var inv = D.invoices.find(function(i) { return i.id === eid; });
-    sel.value = inv.cid || '';
-    document.getElementById('ni-cn').value = inv.cn || '';
-    document.getElementById('ni-ce').value = inv.ce || '';
-    document.getElementById('ni-ca').value = inv.ca || '';
-    document.getElementById('ni-num').value = inv.num || '';
-    document.getElementById('ni-dt').value = inv.dt || '';
-    document.getElementById('ni-due').value = inv.due || '';
-    document.getElementById('ni-notes').value = inv.notes || '';
-    D._li = JSON.parse(JSON.stringify(inv.li || []));
-  } else {
-    sel.value = '';
-    ['ni-cn','ni-ce','ni-ca'].forEach(function(f) { document.getElementById(f).value = ''; });
-    document.getElementById('ni-num').value = (D.cfg.pfx || 'INV-') + String(D.invoices.length + 1).padStart(3, '0');
-    var today = new Date().toISOString().split('T')[0];
-    var due = new Date(); due.setDate(due.getDate() + 14);
-    document.getElementById('ni-dt').value = today;
-    document.getElementById('ni-due').value = due.toISOString().split('T')[0];
-    document.getElementById('ni-notes').value = D.cfg.notes || '';
-    D._li = [{desc:'', det:'', qty:1, rate:0}];
+function initNI(eid){
+  D._eInv=eid||null;
+  document.getElementById('ni-ttl').textContent=eid?'Edit Invoice':'New Invoice';
+  var sel=document.getElementById('ni-cl');
+  sel.innerHTML='<option value="">-- Select a saved client --</option>'+
+    D.clients.map(function(c){return '<option value="'+c.id+'">'+e(c.name)+'</option>';}).join('');
+  if(eid){
+    var inv=D.invoices.find(function(i){return i.id===eid;});
+    sel.value=inv.cid||'';
+    document.getElementById('ni-cn').value=inv.cn||'';
+    document.getElementById('ni-cct').value=inv.cct||'';
+    document.getElementById('ni-ce').value=inv.ce||'';
+    document.getElementById('ni-cph').value=inv.cph||'';
+    document.getElementById('ni-ca').value=inv.ca||'';
+    document.getElementById('ni-num').value=inv.num||'';
+    document.getElementById('ni-dt').value=inv.dt||'';
+    document.getElementById('ni-due').value=inv.due||'';
+    document.getElementById('ni-terms').value=inv.terms||'';
+    document.getElementById('ni-ref').value=inv.ref||'';
+    document.getElementById('ni-notes').value=inv.notes||'';
+    D._li=JSON.parse(JSON.stringify(inv.li||[]));
+  }else{
+    sel.value='';
+    ['ni-cn','ni-cct','ni-ce','ni-cph','ni-ca','ni-ref'].forEach(function(f){document.getElementById(f).value='';});
+    document.getElementById('ni-num').value=(D.cfg.pfx||'INV-')+String(D.invoices.length+1).padStart(3,'0');
+    var today=new Date().toISOString().split('T')[0];
+    var due=new Date();due.setDate(due.getDate()+15);
+    document.getElementById('ni-dt').value=today;
+    document.getElementById('ni-due').value=due.toISOString().split('T')[0];
+    document.getElementById('ni-terms').value=D.cfg.terms||'Net 15';
+    document.getElementById('ni-notes').value=D.cfg.notes||'';
+    D._li=[{ld:'',desc:'',det:'',qty:1,rate:0}];
   }
-  if (!D._li.length) D._li = [{desc:'', det:'', qty:1, rate:0}];
-  document.getElementById('ni-sc').checked = false;
-  rLIs(); upPrev(); upPrevPay();
+  if(!D._li.length)D._li=[{ld:'',desc:'',det:'',qty:1,rate:0}];
+  document.getElementById('ni-sc').checked=false;
+  rLIs();upPrev();upPrevPay();
 }
 
-function fillCl() {
-  var id = document.getElementById('ni-cl').value;
-  if (!id) return;
-  var c = D.clients.find(function(x) { return x.id === id; });
-  if (c) {
-    document.getElementById('ni-cn').value = c.name;
-    document.getElementById('ni-ce').value = c.email || '';
-    document.getElementById('ni-ca').value = c.addr || '';
+function fillCl(){
+  var id=document.getElementById('ni-cl').value;if(!id)return;
+  var c=D.clients.find(function(x){return x.id===id;});
+  if(c){
+    document.getElementById('ni-cn').value=c.name;
+    document.getElementById('ni-cct').value=c.ct||'';
+    document.getElementById('ni-ce').value=c.email||'';
+    document.getElementById('ni-cph').value=c.phone||'';
+    document.getElementById('ni-ca').value=c.addr||'';
   }
   upPrev();
 }
 
-function rLIs() {
-  var w = document.getElementById('li-wrap');
-  if (!D._li.length) { w.innerHTML = ''; upTot(); return; }
-  var rows = D._li.map(function(item, i) {
-    return '<tr class="lir">' +
-      '<td class="c-desc"><div class="svc-wrap">' +
-      '<input type="text" value="' + e(item.desc) + '" placeholder="e.g. IT Support" ' +
-      'oninput="uLI(' + i + ',\'desc\',this.value);fSvc(' + i + ',this.value)" ' +
-      'onfocus="shDrop(' + i + ')" onblur="hdDrop(' + i + ')" autocomplete="off" id="li-d-' + i + '">' +
-      '<div class="svc-drop" id="sd-' + i + '">' + buildSvcOpts(i) + '</div></div></td>' +
-      '<td class="c-det"><textarea class="det-ta" placeholder="e.g. On-site 24/02 - 2hrs" ' +
-      'oninput="uLI(' + i + ',\'det\',this.value)" id="li-det-' + i + '">' + e(item.det || '') + '</textarea></td>' +
-      '<td class="c-qty"><input type="number" value="' + item.qty + '" min="0" step="0.5" oninput="uLI(' + i + ',\'qty\',this.value)"></td>' +
-      '<td class="c-rate"><input type="number" value="' + item.rate + '" min="0" step="0.01" oninput="uLI(' + i + ',\'rate\',this.value)"></td>' +
-      '<td class="c-amt" id="li-a-' + i + '">' + fmt(item.qty * item.rate) + '</td>' +
-      '<td class="c-del"><button class="bdg" onclick="rmLI(' + i + ')" style="padding:4px 6px;font-size:13px">x</button></td>' +
+function rLIs(){
+  var w=document.getElementById('li-wrap');
+  if(!D._li.length){w.innerHTML='';upTot();return;}
+  var rows=D._li.map(function(item,i){
+    return '<tr class="lir">'+
+      '<td class="c-ld"><input type="date" value="'+(item.ld||'')+'" oninput="uLI('+i+',\'ld\',this.value)"></td>'+
+      '<td class="c-desc"><div class="svc-wrap">'+
+      '<input type="text" value="'+e(item.desc)+'" placeholder="Activity" oninput="uLI('+i+',\'desc\',this.value);fSvc('+i+',this.value)" onfocus="shDrop('+i+')" onblur="hdDrop('+i+')" autocomplete="off">'+
+      '<div class="svc-drop" id="sd-'+i+'">'+buildSvcOpts(i)+'</div></div></td>'+
+      '<td class="c-det"><textarea class="det-ta" placeholder="Details / breakdown" oninput="uLI('+i+',\'det\',this.value)">'+e(item.det||'')+'</textarea></td>'+
+      '<td class="c-qty"><input type="number" value="'+item.qty+'" min="0" step="0.5" oninput="uLI('+i+',\'qty\',this.value)"></td>'+
+      '<td class="c-rate"><input type="number" value="'+item.rate+'" min="0" step="0.01" oninput="uLI('+i+',\'rate\',this.value)"></td>'+
+      '<td class="c-amt" id="li-a-'+i+'">'+fmt(item.qty*item.rate)+'</td>'+
+      '<td class="c-del"><button class="bdg" onclick="rmLI('+i+')" style="padding:3px 6px;font-size:13px">x</button></td>'+
       '</tr>';
   }).join('');
-  w.innerHTML = '<table class="lit"><thead><tr><th class="c-desc">Service</th><th class="c-det">Details</th><th class="c-qty">Qty</th><th class="c-rate">Rate ($)</th><th class="c-amt">Amount</th><th class="c-del"></th></tr></thead><tbody>' + rows + '</tbody></table>';
+  w.innerHTML='<table class="lit"><thead><tr>'+
+    '<th class="c-ld">Date</th><th class="c-desc">Activity</th><th class="c-det">Details</th>'+
+    '<th class="c-qty">Qty</th><th class="c-rate">Rate ($)</th><th class="c-amt">Amount</th><th class="c-del"></th>'+
+    '</tr></thead><tbody>'+rows+'</tbody></table>';
   upTot();
 }
 
-function buildSvcOpts(ri) {
-  if (!D.services.length) return '<div class="svc-none">No services saved yet</div>';
-  return D.services.map(function(s) {
-    return '<div class="svc-opt" onmousedown="pickSvc(' + ri + ',\'' + s.id + '\')">' +
-      '<span>' + e(s.name) + '</span><span class="svc-opt-r">' + (s.rate ? fmt(s.rate) + '/hr' : '') + '</span></div>';
+function buildSvcOpts(ri){
+  if(!D.services.length)return '<div class="svc-none">No services saved yet</div>';
+  return D.services.map(function(s){
+    return '<div class="svc-opt" onmousedown="pickSvc('+ri+',\''+s.id+'\')"><span>'+e(s.name)+'</span><span class="svc-opt-r">'+(s.rate?fmt(s.rate)+'/hr':'')+'</span></div>';
   }).join('');
 }
-function fSvc(i, val) {
-  var dr = document.getElementById('sd-' + i); if (!dr) return;
-  var t = val.toLowerCase();
-  var f = D.services.filter(function(s) { return s.name.toLowerCase().indexOf(t) !== -1; });
-  dr.innerHTML = f.length ? f.map(function(s) {
-    return '<div class="svc-opt" onmousedown="pickSvc(' + i + ',\'' + s.id + '\')">' +
-      '<span>' + e(s.name) + '</span><span class="svc-opt-r">' + (s.rate ? fmt(s.rate) + '/hr' : '') + '</span></div>';
-  }).join('') : '<div class="svc-none">No matches</div>';
+function fSvc(i,val){
+  var dr=document.getElementById('sd-'+i);if(!dr)return;
+  var t=val.toLowerCase();
+  var f=D.services.filter(function(s){return s.name.toLowerCase().indexOf(t)!==-1;});
+  dr.innerHTML=f.length?f.map(function(s){
+    return '<div class="svc-opt" onmousedown="pickSvc('+i+',\''+s.id+'\')"><span>'+e(s.name)+'</span><span class="svc-opt-r">'+(s.rate?fmt(s.rate)+'/hr':'')+'</span></div>';
+  }).join(''):'<div class="svc-none">No matches</div>';
 }
-function shDrop(i) { if (D.services.length) { var d = document.getElementById('sd-' + i); if (d) d.classList.add('on'); } }
-function hdDrop(i) { setTimeout(function() { var d = document.getElementById('sd-' + i); if (d) d.classList.remove('on'); }, 200); }
-function pickSvc(ri, sid) {
-  var s = D.services.find(function(x) { return x.id === sid; }); if (!s) return;
-  D._li[ri].desc = s.name;
-  D._li[ri].rate = s.rate || 0;
-  if (s.det && !D._li[ri].det) D._li[ri].det = s.det;
+function shDrop(i){if(D.services.length){var d=document.getElementById('sd-'+i);if(d)d.classList.add('on');}}
+function hdDrop(i){setTimeout(function(){var d=document.getElementById('sd-'+i);if(d)d.classList.remove('on');},200);}
+function pickSvc(ri,sid){
+  var s=D.services.find(function(x){return x.id===sid;});if(!s)return;
+  D._li[ri].desc=s.name;D._li[ri].rate=s.rate||0;
+  if(s.det&&!D._li[ri].det)D._li[ri].det=s.det;
   rLIs();
 }
-function uLI(i, f, val) {
-  D._li[i][f] = (f === 'desc' || f === 'det') ? val : (parseFloat(val) || 0);
-  if (f === 'qty' || f === 'rate') { var a = document.getElementById('li-a-' + i); if (a) a.textContent = fmt(D._li[i].qty * D._li[i].rate); }
-  upTot(); upPrev();
+function uLI(i,f,val){
+  D._li[i][f]=(f==='desc'||f==='det'||f==='ld')?val:(parseFloat(val)||0);
+  if(f==='qty'||f==='rate'){var a=document.getElementById('li-a-'+i);if(a)a.textContent=fmt(D._li[i].qty*D._li[i].rate);}
+  upTot();upPrev();
 }
-function addLI() { D._li.push({desc:'', det:'', qty:1, rate:0}); rLIs(); }
-function rmLI(i) { D._li.splice(i, 1); if (!D._li.length) D._li = [{desc:'', det:'', qty:1, rate:0}]; rLIs(); }
-function upTot() { document.getElementById('ni-tot').textContent = fmt(D._li.reduce(function(s, i) { return s + (i.qty * i.rate); }, 0)); }
-function upPrev() {
-  document.getElementById('pv-from').textContent = D.cfg.name || '(your name)';
-  document.getElementById('pv-to').textContent = gv('ni-cn') || '--';
-  document.getElementById('pv-num').textContent = gv('ni-num') || '--';
-  document.getElementById('pv-due').textContent = gv('ni-due') || '--';
-  document.getElementById('pv-tot').textContent = fmt(D._li.reduce(function(s, i) { return s + (i.qty * i.rate); }, 0));
+function addLI(){D._li.push({ld:'',desc:'',det:'',qty:1,rate:0});rLIs();}
+function rmLI(i){D._li.splice(i,1);if(!D._li.length)D._li=[{ld:'',desc:'',det:'',qty:1,rate:0}];rLIs();}
+function upTot(){
+  var t=D._li.reduce(function(s,i){return s+(i.qty*i.rate);},0);
+  document.getElementById('ni-tot').textContent='A'+fmt(t);
+  document.getElementById('pv-tot').textContent='A'+fmt(t);
 }
-function upPrevPay() {
-  var c = D.cfg; var el = document.getElementById('pv-pay'); var pills = [];
-  if (c.bsb && c.acc) pills.push('<span style="background:#eef2f7;color:#3a4a6a;padding:4px 10px;border-radius:20px;font-size:11.5px;font-weight:500">BSB</span>');
-  if (c.pid) pills.push('<span style="background:#fef0e8;color:var(--pid);padding:4px 10px;border-radius:20px;font-size:11.5px;font-weight:500">PayID</span>');
-  if (c.ppl) pills.push('<span style="background:#e8eef8;color:var(--pp);padding:4px 10px;border-radius:20px;font-size:11.5px;font-weight:500">PayPal</span>');
-  el.innerHTML = pills.length ?
-    '<div style="font-size:11px;color:var(--ink-f);margin-bottom:6px">Payment methods:</div><div style="display:flex;flex-wrap:wrap;gap:6px">' + pills.join('') + '</div>' :
-    '<div style="font-size:11.5px;color:var(--ink-f);font-style:italic">No payment methods -- add in Settings.</div>';
+function upPrev(){
+  document.getElementById('pv-from').textContent=D.cfg.name||'(your business)';
+  document.getElementById('pv-to').textContent=gv('ni-cn')||'--';
+  document.getElementById('pv-num').textContent=gv('ni-num')||'--';
+  document.getElementById('pv-due').textContent=gv('ni-due')||'--';
+}
+function upPrevPay(){
+  var c=D.cfg;var el=document.getElementById('pv-pay');var pills=[];
+  if(c.bsb&&c.acc)pills.push('<span style="background:#eef2f7;color:#3a4a6a;padding:4px 10px;border-radius:20px;font-size:11.5px;font-weight:500">BSB</span>');
+  if(c.pid)pills.push('<span style="background:#fef0e8;color:#b54d10;padding:4px 10px;border-radius:20px;font-size:11.5px;font-weight:500">PayID</span>');
+  if(c.ppl)pills.push('<span style="background:#e8eef8;color:#002060;padding:4px 10px;border-radius:20px;font-size:11.5px;font-weight:500">PayPal</span>');
+  el.innerHTML=pills.length?'<div style="font-size:11px;color:var(--ink-f);margin-bottom:6px">Payment methods:</div><div style="display:flex;flex-wrap:wrap;gap:6px">'+pills.join('')+'</div>':
+    '<div style="font-size:11.5px;color:var(--ink-f);font-style:italic">No payment methods set yet.</div>';
 }
 
-function saveInv(status) {
-  var cn = gv('ni-cn').trim(); var num = gv('ni-num').trim();
-  if (!cn) { alert('Please enter a client name.'); return; }
-  if (!num) { alert('Please enter an invoice number.'); return; }
-  if (document.getElementById('ni-sc').checked && cn) {
-    var ex = D.clients.find(function(c) { return c.name.toLowerCase() === cn.toLowerCase(); });
-    if (!ex) { D.clients.push({id: uid(), name: cn, email: gv('ni-ce'), addr: gv('ni-ca'), phone:'', abn:'', notes:''}); toast('Client saved!'); }
+function saveInv(status){
+  var cn=gv('ni-cn').trim();var num=gv('ni-num').trim();
+  if(!cn){alert('Please enter a client name.');return;}
+  if(!num){alert('Please enter an invoice number.');return;}
+  if(document.getElementById('ni-sc').checked&&cn){
+    var ex=D.clients.find(function(c){return c.name.toLowerCase()===cn.toLowerCase();});
+    if(!ex){D.clients.push({id:uid(),name:cn,ct:gv('ni-cct'),email:gv('ni-ce'),phone:gv('ni-cph'),addr:gv('ni-ca'),abn:'',notes:''});toast('Client saved!');}
   }
-  var inv = {
-    id: D._eInv || uid(), num: num,
-    cid: document.getElementById('ni-cl').value,
-    cn: cn, ce: gv('ni-ce'), ca: gv('ni-ca'),
-    dt: gv('ni-dt'), due: gv('ni-due'), notes: gv('ni-notes'),
-    li: JSON.parse(JSON.stringify(D._li)),
-    tot: D._li.reduce(function(s, i) { return s + (i.qty * i.rate); }, 0),
-    status: status
+  var tot=D._li.reduce(function(s,i){return s+(i.qty*i.rate);},0);
+  var inv={
+    id:D._eInv||uid(),num:num,cid:document.getElementById('ni-cl').value,
+    cn:cn,cct:gv('ni-cct'),ce:gv('ni-ce'),cph:gv('ni-cph'),ca:gv('ni-ca'),
+    dt:gv('ni-dt'),due:gv('ni-due'),terms:gv('ni-terms'),ref:gv('ni-ref'),
+    notes:gv('ni-notes'),li:JSON.parse(JSON.stringify(D._li)),tot:tot,status:status
   };
-  if (D._eInv) {
-    var idx = D.invoices.findIndex(function(i) { return i.id === D._eInv; });
-    D.invoices[idx] = Object.assign({}, D.invoices[idx], inv);
-  } else {
-    inv.cat = new Date().toISOString();
-    D.invoices.unshift(inv);
-  }
-  save(); toast(status === 'draft' ? 'Draft saved!' : 'Invoice saved!'); go('invoices');
+  if(D._eInv){var idx=D.invoices.findIndex(function(i){return i.id===D._eInv;});D.invoices[idx]=Object.assign({},D.invoices[idx],inv);}
+  else{inv.cat=new Date().toISOString();D.invoices.unshift(inv);}
+  save();toast(status==='draft'?'Draft saved!':'Invoice saved!');go('invoices');
 }
 
-function rInvs() {
-  document.getElementById('inv-ct').textContent = D.invoices.length + ' invoice' + (D.invoices.length !== 1 ? 's' : '');
-  var el = document.getElementById('inv-list');
-  if (!D.invoices.length) { el.innerHTML = es('No invoices yet', 'Create your first invoice to get started'); return; }
-  var rows = D.invoices.map(function(inv) {
-    return '<tr><td><strong>' + e(inv.num) + '</strong></td><td>' + e(inv.cn) + '</td><td>' + fd(inv.dt) + '</td><td>' + fd(inv.due) + '</td>' +
-    '<td>' + fmt(inv.tot) + '</td><td><span class="badge ' + bc(inv) + '">' + bl(inv) + '</span></td>' +
-    '<td><div class="acts">' +
-    '<button class="btn bg bsm" onclick="viewInv(\'' + inv.id + '\')">View</button>' +
-    '<button class="btn bg bsm" onclick="editInv(\'' + inv.id + '\')">Edit</button>' +
-    (inv.status !== 'paid' ? '<button class="btn bg bsm" style="color:var(--ok)" onclick="mPaid(\'' + inv.id + '\')">Paid</button>' : '') +
-    '<button class="bdg bsm" onclick="delInv(\'' + inv.id + '\')">Delete</button>' +
+function bc(inv){if(inv.status==='paid')return 'b-paid';if(inv.status==='draft')return 'b-draft';if(inv.due&&new Date(inv.due)<new Date())return 'b-over';return 'b-sent';}
+function bl(inv){if(inv.status==='paid')return 'Paid';if(inv.status==='draft')return 'Draft';if(inv.due&&new Date(inv.due)<new Date())return 'Overdue';return 'Sent';}
+
+function rInvs(){
+  document.getElementById('inv-ct').textContent=D.invoices.length+' invoice'+(D.invoices.length!==1?'s':'');
+  var el=document.getElementById('inv-list');
+  if(!D.invoices.length){el.innerHTML=es('No invoices yet','Create your first invoice to get started');return;}
+  var rows=D.invoices.map(function(inv){
+    return '<tr><td><strong>'+e(inv.num)+'</strong></td><td>'+e(inv.cn)+'</td><td>'+fd(inv.dt)+'</td><td>'+fd(inv.due)+'</td>'+
+    '<td>A'+fmt(inv.tot)+'</td><td><span class="badge '+bc(inv)+'">'+bl(inv)+'</span></td>'+
+    '<td><div class="acts">'+
+    '<button class="btn bg bsm" onclick="viewInv(\''+inv.id+'\')">View</button>'+
+    '<button class="btn bg bsm" onclick="editInv(\''+inv.id+'\')">Edit</button>'+
+    (inv.status!=='paid'?'<button class="btn bg bsm" style="color:var(--ok)" onclick="mPaid(\''+inv.id+'\')">Paid</button>':'')+
+    '<button class="bdg bsm" onclick="delInv(\''+inv.id+'\')">Delete</button>'+
     '</div></td></tr>';
   }).join('');
-  el.innerHTML = '<table><thead><tr><th>Invoice #</th><th>Client</th><th>Date</th><th>Due</th><th>Amount</th><th>Status</th><th></th></tr></thead><tbody>' + rows + '</tbody></table>';
+  el.innerHTML='<table><thead><tr><th>Invoice #</th><th>Client</th><th>Date</th><th>Due</th><th>Amount</th><th>Status</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';
 }
-function bc(inv) { if (inv.status === 'paid') return 'b-paid'; if (inv.status === 'draft') return 'b-draft'; if (inv.due && new Date(inv.due) < new Date()) return 'b-over'; return 'b-sent'; }
-function bl(inv) { if (inv.status === 'paid') return 'Paid'; if (inv.status === 'draft') return 'Draft'; if (inv.due && new Date(inv.due) < new Date()) return 'Overdue'; return 'Sent'; }
-function mPaid(id) { var inv = D.invoices.find(function(i) { return i.id === id; }); if (inv) { inv.status = 'paid'; inv.pat = new Date().toISOString(); save(); rInvs(); toast('Marked as paid!'); } }
-function markCurPaid() { if (D._vInv) { mPaid(D._vInv); viewInv(D._vInv); } }
-function delInv(id) { if (!confirm('Delete this invoice?')) return; D.invoices = D.invoices.filter(function(i) { return i.id !== id; }); save(); rInvs(); }
-function editInv(id) { go('new-invoice'); initNI(id); }
+function mPaid(id){var inv=D.invoices.find(function(i){return i.id===id;});if(inv){inv.status='paid';inv.pat=new Date().toISOString();save();rInvs();toast('Marked as paid!');}}
+function markCurPaid(){if(D._vInv){mPaid(D._vInv);viewInv(D._vInv);}}
+function delInv(id){if(!confirm('Delete this invoice?'))return;D.invoices=D.invoices.filter(function(i){return i.id!==id;});save();rInvs();}
+function editInv(id){go('new-invoice');initNI(id);}
 
-function viewInv(id) {
-  D._vInv = id;
-  var inv = D.invoices.find(function(i) { return i.id === id; });
-  var c = D.cfg;
-  document.getElementById('vi-paid').style.display = inv.status === 'paid' ? 'none' : 'inline-flex';
-  var liRows = inv.li.map(function(item) {
-    return '<tr>' +
-      '<td><div class="idn">' + (e(item.desc) || '--') + '</div></td>' +
-      '<td><div class="idt">' + e(item.det || '').replace(/\n/g, '<br>') + '</div></td>' +
-      '<td>' + item.qty + '</td><td>' + fmt(item.rate) + '</td>' +
-      '<td class="ia">' + fmt(item.qty * item.rate) + '</td></tr>';
+function viewInv(id){
+  D._vInv=id;
+  var inv=D.invoices.find(function(i){return i.id===id;});
+  var c=D.cfg;
+  document.getElementById('vi-paid').style.display=inv.status==='paid'?'none':'inline-flex';
+  var liRows=inv.li.map(function(item){
+    return '<tr>'+
+      '<td style="color:#888;font-size:11.5px;white-space:nowrap">'+(item.ld?fd(item.ld):'')+'</td>'+
+      '<td><div class="ip-act-name">'+e(item.desc||'--')+'</div>'+
+      (item.det?'<div class="ip-act-det">'+e(item.det)+'</div>':'')+'</td>'+
+      '<td class="tc">'+item.qty+'</td>'+
+      '<td class="tr">'+fmtN(item.rate)+'</td>'+
+      '<td class="tr">'+fmtN(item.qty*item.rate)+'</td></tr>';
   }).join('');
-  document.getElementById('iprint').innerHTML =
-    '<div class="ih"><div>' +
-    '<div class="ibr">' + e(c.name || 'Your Business') + '</div>' +
-    (c.abn ? '<div class="ibs">ABN: ' + e(c.abn) + '</div>' : '') +
-    (c.email ? '<div class="ibs">' + e(c.email) + '</div>' : '') +
-    (c.phone ? '<div class="ibs">' + e(c.phone) + '</div>' : '') +
-    (c.addr ? '<div class="ibs">' + e(c.addr).replace(/\n/g, '<br>') + '</div>' : '') +
-    '</div><div style="text-align:right">' +
-    '<div class="itp">INVOICE</div><div class="inm">' + e(inv.num) + '</div>' +
-    '<div style="margin-top:6px"><span class="badge ' + bc(inv) + '">' + bl(inv) + '</span></div>' +
-    '</div></div>' +
-    '<div class="ipar"><div>' +
-    '<div class="ipl">Bill To</div><div class="ipn">' + e(inv.cn) + '</div>' +
-    (inv.ce ? '<div class="ipd">' + e(inv.ce) + '</div>' : '') +
-    (inv.ca ? '<div class="ipd">' + e(inv.ca).replace(/\n/g, '<br>') + '</div>' : '') +
-    '</div><div><div class="imet">' +
-    '<div><div class="iml">Issue Date</div><div class="imv">' + fd(inv.dt) + '</div></div>' +
-    '<div><div class="iml">Due Date</div><div class="imv">' + fd(inv.due) + '</div></div>' +
-    '</div></div></div>' +
-    '<table class="it"><thead><tr><th>Service</th><th>Details</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead><tbody>' + liRows + '</tbody></table>' +
-    '<div class="igr"><span class="igl">Total Due</span><span class="igv">' + fmt(inv.tot) + '</span></div>' +
-    buildPayH(inv) +
-    (inv.notes ? '<div class="inotes"><div class="inotl">Notes</div><div class="inotv">' + e(inv.notes).replace(/\n/g, '<br>') + '</div></div>' : '') +
-    '<div class="ifoot">Thank you for your business.</div>';
+  var logoHtml=c.logo?'<img src="'+c.logo+'" class="ip-logo" alt="logo">':'';
+  var payHtml=buildPayBlock(inv);
+  document.getElementById('iprint').innerHTML=
+    '<div class="ip-top">'+
+    '<div class="ip-header">'+
+    '<div>'+
+    '<div class="ip-biz-name">'+e(c.name||'Your Business')+'</div>'+
+    '<div class="ip-biz-sub">'+
+    (c.addr?e(c.addr).replace(/\n/g,'<br>')+'<br>':'')+(c.phone?e(c.phone)+'<br>':'')+(c.email?e(c.email):'')+'</div>'+
+    '</div>'+
+    (logoHtml?'<div>'+logoHtml+'</div>':'')+'</div>'+
+    '<div class="ip-title-bar">'+
+    '<div class="ip-title">INVOICE</div>'+
+    '<div class="ip-title-num">INVOICE '+e(inv.num)+'</div>'+
+    '</div>'+
+    '<div class="ip-parties">'+
+    '<div class="ip-party"><div class="ip-party-lbl">Invoice To</div>'+
+    '<div class="ip-party-name">'+e(inv.cct||inv.cn)+'</div>'+
+    '<div class="ip-party-addr">'+e(inv.cn)+'<br>'+(inv.ca?e(inv.ca).replace(/\n/g,'<br>'):'')+'</div></div>'+
+    '<div class="ip-party"><div class="ip-party-lbl">Ship To</div>'+
+    '<div class="ip-party-name">'+e(inv.cct||inv.cn)+'</div>'+
+    '<div class="ip-party-addr">'+e(inv.cn)+'<br>'+(inv.ca?e(inv.ca).replace(/\n/g,'<br>'):'')+'</div></div>'+
+    '<div class="ip-party">'+
+    '<div class="ip-meta">'+
+    '<div class="ip-meta-row"><span class="ip-meta-k">Invoice</span><span class="ip-meta-v">'+e(inv.num)+'</span></div>'+
+    '<div class="ip-meta-row"><span class="ip-meta-k">Date</span><span class="ip-meta-v">'+fd(inv.dt)+'</span></div>'+
+    '<div class="ip-meta-row"><span class="ip-meta-k">Terms</span><span class="ip-meta-v">'+(inv.terms||'--')+'</span></div>'+
+    '<div class="ip-meta-row"><span class="ip-meta-k">Due Date</span><span class="ip-meta-v">'+fd(inv.due)+'</span></div>'+
+    (inv.ref?'<div class="ip-meta-row"><span class="ip-meta-k">Reference</span><span class="ip-meta-v">'+e(inv.ref)+'</span></div>':'')+
+    '</div></div></div></div>'+
+    '<div class="ip-body">'+
+    '<table class="ip-table"><thead><tr>'+
+    '<th style="width:11%">Date</th><th>Activity</th><th class="tc" style="width:8%">Qty</th>'+
+    '<th class="tr" style="width:12%">Rate</th><th class="tr" style="width:13%">Amount</th>'+
+    '</tr></thead><tbody>'+liRows+'</tbody></table></div>'+
+    '<hr class="ip-divider">'+
+    '<div class="ip-bottom">'+
+    '<div class="ip-thanks">'+(inv.notes?e(inv.notes).replace(/\n/g,'<br>'):'')+'</div>'+
+    '<div class="ip-balance-box"><div class="ip-bal-lbl">Balance Due</div><div class="ip-bal-val">A'+fmt(inv.tot)+'</div></div>'+
+    '</div>'+
+    payHtml+
+    '<div class="ip-page-foot">Thank you for your business!<br>Page 1 of 1</div>';
   go('view-invoice');
 }
 
-function buildPayH(inv) {
-  var c = D.cfg; var t = [];
-  if (c.bsb && c.acc) t.push('<div class="ptile pt-bsb"><div class="ptile-l">Bank Transfer</div><div class="ptile-v">' + (c.acn ? e(c.acn) + '<br>' : '') + '<strong>BSB:</strong> ' + e(c.bsb) + ' <strong>Acc:</strong> ' + e(c.acc) + '</div></div>');
-  if (c.pid) t.push('<div class="ptile pt-pid"><div class="ptile-l">PayID</div><div class="ptile-v">' + e(c.pid) + '</div></div>');
-  if (c.ppl) { var u = 'https://paypal.me/' + encodeURIComponent(c.ppl) + '/' + inv.tot.toFixed(2) + 'AUD'; t.push('<div class="ptile pt-pp"><div class="ptile-l">PayPal</div><div class="ptile-v"><a href="' + u + '" target="_blank">' + u + '</a></div></div>'); }
-  if (!t.length) return '';
-  return '<div class="ipay"><div class="ipayt">Pay this invoice</div><div class="ipaygr">' + t.join('') + '</div></div>';
+function buildPayBlock(inv){
+  var c=D.cfg;var items=[];
+  if(c.acn||c.bsb||c.acc){
+    if(c.acn)items.push('<div class="ip-pay-item"><div class="ip-pay-item-k">Name</div><div class="ip-pay-item-v">'+e(c.acn)+'</div></div>');
+    if(c.bsb)items.push('<div class="ip-pay-item"><div class="ip-pay-item-k">BSB</div><div class="ip-pay-item-v">'+e(c.bsb)+'</div></div>');
+    if(c.acc)items.push('<div class="ip-pay-item"><div class="ip-pay-item-k">Account No</div><div class="ip-pay-item-v">'+e(c.acc)+'</div></div>');
+  }
+  if(c.pid)items.push('<div class="ip-pay-item"><div class="ip-pay-item-k">PayID</div><div class="ip-pay-item-v">'+e(c.pid)+'</div></div>');
+  if(c.pidn)items.push('<div class="ip-pay-item"><div class="ip-pay-item-k">PayID Name</div><div class="ip-pay-item-v">'+e(c.pidn)+'</div></div>');
+  if(c.ppl){var u='https://paypal.me/'+encodeURIComponent(c.ppl)+'/'+inv.tot.toFixed(2)+'AUD';items.push('<div class="ip-pay-item"><div class="ip-pay-item-k">PayPal</div><div class="ip-pay-item-v"><a href="'+u+'">'+u+'</a></div></div>');}
+  if(!items.length)return '';
+  return '<div class="ip-payment"><div class="ip-pay-lbl">Payment Details</div><div class="ip-pay-grid">'+items.join('')+'</div>'+
+    '<div class="ip-ref">Please use your invoice number as a reference so we can see when you\'ve paid.</div></div>';
 }
 
-function expPDF() {
-  var inv = D.invoices.find(function(i) { return i.id === D._vInv; });
-  html2pdf().set({margin:[10,10], filename: inv.num + '.pdf', image:{type:'jpeg',quality:.98}, html2canvas:{scale:2}, jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(document.getElementById('iprint')).save();
+function expPDF(){
+  var inv=D.invoices.find(function(i){return i.id===D._vInv;});
+  html2pdf().set({margin:[8,8],filename:inv.num+'.pdf',image:{type:'jpeg',quality:.98},html2canvas:{scale:2},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(document.getElementById('iprint')).save();
 }
 
-function buildPaymentText() {
-  var c = D.cfg; var lines = [];
-  if (c.bsb && c.acc) lines.push('Bank Transfer - BSB: ' + c.bsb + ' Acc: ' + c.acc + (c.acn ? ' (' + c.acn + ')' : ''));
-  if (c.pid) lines.push('PayID: ' + c.pid);
-  if (c.ppl) lines.push('PayPal: https://paypal.me/' + c.ppl);
-  return lines.length ? lines.join('\n') : 'See invoice for payment details.';
+function buildPaymentText(){
+  var c=D.cfg;var lines=[];
+  if(c.acn||c.bsb||c.acc){
+    var bline='Bank Transfer:';
+    if(c.acn)bline=bline+' Name: '+c.acn;
+    if(c.bsb)bline=bline+' BSB: '+c.bsb;
+    if(c.acc)bline=bline+' Acc: '+c.acc;
+    lines.push(bline);
+  }
+  if(c.pid)lines.push('PayID: '+c.pid+(c.pidn?' ('+c.pidn+')':''));
+  if(c.ppl)lines.push('PayPal: https://paypal.me/'+c.ppl);
+  return lines.length?lines.join('\n'):'See invoice for payment details.';
 }
 
-function buildInvoiceText(inv) {
-  var lines = inv.li.map(function(item) {
-    var line = (item.desc || 'Service') + ' - Qty: ' + item.qty + ' x ' + fmt(item.rate) + ' = ' + fmt(item.qty * item.rate);
-    if (item.det) line = line + '\n    ' + item.det.split('\n').join('\n    ');
-    return line;
-  });
-  return lines.join('\n');
+function buildEmailHTML(inv){
+  var c=D.cfg;
+  var liRows=inv.li.map(function(item){
+    return '<tr style="border-bottom:1px solid #eee">'+
+      '<td style="padding:8px 10px;font-size:13px;color:#888">'+(item.ld?fd(item.ld):'')+'</td>'+
+      '<td style="padding:8px 10px;font-size:13px;font-weight:600">'+(item.desc||'--')+'</td>'+
+      '<td style="padding:8px 10px;font-size:13px;color:#555;white-space:pre-line">'+(item.det||'')+'</td>'+
+      '<td style="padding:8px 10px;font-size:13px;text-align:center">'+item.qty+'</td>'+
+      '<td style="padding:8px 10px;font-size:13px;text-align:right">'+fmt(item.rate)+'</td>'+
+      '<td style="padding:8px 10px;font-size:13px;text-align:right;font-weight:600">'+fmt(item.qty*item.rate)+'</td>'+
+      '</tr>';
+  }).join('');
+  var payLines=buildPaymentText().split('\n').map(function(l){return '<li style="margin-bottom:4px;font-size:13px">'+l+'</li>';}).join('');
+  return '<!DOCTYPE html><html><body style="font-family:Arial,sans-serif;color:#222;max-width:600px;margin:0 auto;padding:20px">'+
+    '<div style="border-bottom:2px solid #1a1a1a;padding-bottom:12px;margin-bottom:20px">'+
+    '<h2 style="margin:0;font-size:20px">'+e(c.name||'Your Business')+'</h2>'+
+    (c.email?'<p style="margin:4px 0;font-size:12px;color:#666">'+e(c.email)+'</p>':'')+
+    (c.phone?'<p style="margin:4px 0;font-size:12px;color:#666">'+e(c.phone)+'</p>':'')+
+    '</div>'+
+    '<p style="font-size:14px">Hi '+e(inv.cct||inv.cn)+',</p>'+
+    '<p style="font-size:14px">Please find attached invoice <strong>'+e(inv.num)+'</strong> for <strong>A'+fmt(inv.tot)+'</strong>, due '+fd(inv.due)+'.</p>'+
+    '<table style="width:100%;border-collapse:collapse;margin:20px 0;border:1px solid #eee">'+
+    '<thead><tr style="background:#f5f5f5">'+
+    '<th style="padding:8px 10px;font-size:11px;text-align:left;text-transform:uppercase;letter-spacing:.5px;color:#888">Date</th>'+
+    '<th style="padding:8px 10px;font-size:11px;text-align:left;text-transform:uppercase;letter-spacing:.5px;color:#888">Activity</th>'+
+    '<th style="padding:8px 10px;font-size:11px;text-align:left;text-transform:uppercase;letter-spacing:.5px;color:#888">Details</th>'+
+    '<th style="padding:8px 10px;font-size:11px;text-align:center;text-transform:uppercase;letter-spacing:.5px;color:#888">Qty</th>'+
+    '<th style="padding:8px 10px;font-size:11px;text-align:right;text-transform:uppercase;letter-spacing:.5px;color:#888">Rate</th>'+
+    '<th style="padding:8px 10px;font-size:11px;text-align:right;text-transform:uppercase;letter-spacing:.5px;color:#888">Amount</th>'+
+    '</tr></thead><tbody>'+liRows+'</tbody>'+
+    '<tfoot><tr><td colspan="5" style="padding:10px;text-align:right;font-weight:700;font-size:14px;border-top:2px solid #1a1a1a">Balance Due</td>'+
+    '<td style="padding:10px;text-align:right;font-weight:700;font-size:16px;border-top:2px solid #1a1a1a">A'+fmt(inv.tot)+'</td></tr></tfoot>'+
+    '</table>'+
+    '<div style="background:#f5f5f5;padding:14px 18px;margin:20px 0;border-radius:4px">'+
+    '<p style="margin:0 0 8px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#999">Payment Details</p>'+
+    '<ul style="margin:0;padding-left:16px">'+payLines+'</ul>'+
+    '<p style="margin:10px 0 0;font-size:11px;color:#888;font-style:italic">Please use your invoice number as a reference.</p>'+
+    '</div>'+
+    (inv.notes?'<p style="font-size:13px;color:#555;font-style:italic">'+e(inv.notes).replace(/\n/g,'<br>')+'</p>':'')+
+    '<p style="font-size:13px;color:#555">Thanks,<br><strong>'+e(c.name||'Your Business')+'</strong></p>'+
+    '</body></html>';
 }
 
-function sendEmail() {
-  var inv = D.invoices.find(function(i) { return i.id === D._vInv; });
-  if (!inv) return;
-  if (!inv.ce) { alert('This client has no email address. Edit the invoice to add one.'); return; }
-  var btn = document.getElementById('vi-send');
-  btn.textContent = 'Sending...';
-  btn.disabled = true;
-  var params = {
-    to_email: inv.ce,
-    client_name: inv.cn,
-    business_name: D.cfg.name || 'Your Business',
-    invoice_number: inv.num,
-    invoice_total: fmt(inv.tot),
-    due_date: fd(inv.due),
-    invoice_details: buildInvoiceText(inv),
-    payment_info: buildPaymentText()
-  };
-  emailjs.send('service_qa4go6o', 'template_fgjn8eo', params)
-    .then(function() {
-      inv.status = 'sent'; save();
-      toast('Email sent to ' + inv.ce + '!');
-      btn.textContent = 'Sent!';
-      btn.disabled = false;
-      setTimeout(function() { btn.textContent = 'Send to Client'; }, 3000);
+function sendEmail(){
+  var inv=D.invoices.find(function(i){return i.id===D._vInv;});
+  if(!inv)return;
+  if(!inv.ce){alert('This client has no email address. Edit the invoice to add one.');return;}
+  var btn=document.getElementById('vi-send');
+  btn.textContent='Generating PDF...';btn.disabled=true;
+
+  var opt={margin:[8,8],image:{type:'jpeg',quality:.98},html2canvas:{scale:2},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}};
+  html2pdf().set(opt).from(document.getElementById('iprint')).outputPdf('datauristring')
+    .then(function(dataUri){
+      var b64=dataUri.split(',')[1];
+      btn.textContent='Sending...';
+      return fetch('https://api.resend.com/emails',{
+        method:'POST',
+        headers:{'Authorization':'Bearer re_ADtqPgSm_EfVSVdrW4hmifvfTuDWk2weY','Content-Type':'application/json'},
+        body:JSON.stringify({
+          from:'QuickByte Solutions <invoices@quickbyte.com.au>',
+          to:[inv.ce],
+          subject:'Invoice '+inv.num+' from '+(D.cfg.name||'QuickByte Solutions'),
+          html:buildEmailHTML(inv),
+          attachments:[{filename:inv.num+'.pdf',content:b64}]
+        })
+      });
     })
-    .catch(function(err) {
-      console.error('EmailJS error:', err);
-      alert('Send failed: ' + (err.text || JSON.stringify(err)));
-      btn.textContent = 'Send to Client';
-      btn.disabled = false;
+    .then(function(res){return res.json().then(function(data){return {ok:res.ok,data:data};});})
+    .then(function(r){
+      if(!r.ok){throw new Error(r.data.message||JSON.stringify(r.data));}
+      inv.status='sent';save();
+      toast('Email sent to '+inv.ce+' with PDF attached!');
+      btn.textContent='Sent!';btn.disabled=false;
+      setTimeout(function(){btn.textContent='Send to Client';},3000);
+    })
+    .catch(function(err){
+      console.error('Send error:',err);
+      alert('Send failed: '+err.message);
+      btn.textContent='Send to Client';btn.disabled=false;
     });
 }
 
-function rDash() {
-  var h = new Date().getHours();
-  var g = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
-  document.getElementById('dg').textContent = D.cfg.name ? g + ', ' + D.cfg.name.split(' ')[0] : g;
-  document.getElementById('s-tot').textContent = fmt(D.invoices.reduce(function(s,i) { return s+i.tot; }, 0));
-  document.getElementById('s-paid').textContent = fmt(D.invoices.filter(function(i) { return i.status==='paid'; }).reduce(function(s,i) { return s+i.tot; }, 0));
-  document.getElementById('s-out').textContent = fmt(D.invoices.filter(function(i) { return i.status!=='paid' && i.status!=='draft'; }).reduce(function(s,i) { return s+i.tot; }, 0));
-  var el = document.getElementById('d-recent');
-  var r = D.invoices.slice(0, 5);
-  if (!r.length) { el.innerHTML = es('No invoices yet', 'Create your first invoice'); return; }
-  var rows = r.map(function(inv) {
-    return '<tr style="cursor:pointer" onclick="viewInv(\'' + inv.id + '\')">' +
-    '<td><strong>' + e(inv.num) + '</strong></td><td>' + e(inv.cn) + '</td><td>' + fd(inv.due) + '</td>' +
-    '<td>' + fmt(inv.tot) + '</td><td><span class="badge ' + bc(inv) + '">' + bl(inv) + '</span></td></tr>';
+function rDash(){
+  var h=new Date().getHours();
+  var g=h<12?'Good morning':h<17?'Good afternoon':'Good evening';
+  document.getElementById('dg').textContent=D.cfg.name?g+', '+D.cfg.name.split(' ')[0]:g;
+  document.getElementById('s-tot').textContent='A'+fmt(D.invoices.reduce(function(s,i){return s+i.tot;},0));
+  document.getElementById('s-paid').textContent='A'+fmt(D.invoices.filter(function(i){return i.status==='paid';}).reduce(function(s,i){return s+i.tot;},0));
+  document.getElementById('s-out').textContent='A'+fmt(D.invoices.filter(function(i){return i.status!=='paid'&&i.status!=='draft';}).reduce(function(s,i){return s+i.tot;},0));
+  var el=document.getElementById('d-recent');var r=D.invoices.slice(0,5);
+  if(!r.length){el.innerHTML=es('No invoices yet','Create your first invoice');return;}
+  var rows=r.map(function(inv){
+    return '<tr style="cursor:pointer" onclick="viewInv(\''+inv.id+'\')">'+
+    '<td><strong>'+e(inv.num)+'</strong></td><td>'+e(inv.cn)+'</td><td>'+fd(inv.due)+'</td>'+
+    '<td>A'+fmt(inv.tot)+'</td><td><span class="badge '+bc(inv)+'">'+bl(inv)+'</span></td></tr>';
   }).join('');
-  el.innerHTML = '<table><thead><tr><th>Invoice #</th><th>Client</th><th>Due</th><th>Amount</th><th>Status</th></tr></thead><tbody>' + rows + '</tbody></table>';
+  el.innerHTML='<table><thead><tr><th>Invoice #</th><th>Client</th><th>Due</th><th>Amount</th><th>Status</th></tr></thead><tbody>'+rows+'</tbody></table>';
 }
 
-function rBAS() {
-  var now = new Date(); var qs = [];
-  for (var q = 3; q >= 0; q--) {
-    var s = new Date(now); s.setMonth(s.getMonth() - (q * 3) - (now.getMonth() % 3)); s.setDate(1);
-    var e2 = new Date(s); e2.setMonth(e2.getMonth() + 3); e2.setDate(0);
-    qs.push({s: s, e: e2});
+function rBAS(){
+  var now=new Date();var qs=[];
+  for(var q=3;q>=0;q--){
+    var s=new Date(now);s.setMonth(s.getMonth()-(q*3)-(now.getMonth()%3));s.setDate(1);
+    var e2=new Date(s);e2.setMonth(e2.getMonth()+3);e2.setDate(0);
+    qs.push({s:s,e:e2});
   }
-  D._bqA = qs;
-  document.getElementById('bas-qs').innerHTML = qs.map(function(q, i) {
-    var l = q.s.toLocaleString('default',{month:'short'}) + ' ' + q.s.getFullYear() + ' - ' + q.e.toLocaleString('default',{month:'short'}) + ' ' + q.e.getFullYear();
-    return '<div class="bq' + (D._bq === i ? ' on' : '') + '" onclick="selBQ(' + i + ')"><div class="bql">Quarter ' + (i+1) + '</div><div class="bqp">' + l + '</div></div>';
+  D._bqA=qs;
+  document.getElementById('bas-qs').innerHTML=qs.map(function(q,i){
+    var l=q.s.toLocaleString('default',{month:'short'})+' '+q.s.getFullYear()+' - '+q.e.toLocaleString('default',{month:'short'})+' '+q.e.getFullYear();
+    return '<div class="bq'+(D._bq===i?' on':'')+'" onclick="selBQ('+i+')"><div class="bql">Quarter '+(i+1)+'</div><div class="bqp">'+l+'</div></div>';
   }).join('');
-  if (D._bq !== null) showBQ(D._bq);
+  if(D._bq!==null)showBQ(D._bq);
 }
-function selBQ(i) { D._bq = i; rBAS(); }
-function showBQ(i) {
-  var q = D._bqA[i];
-  var invs = D.invoices.filter(function(inv) { var d = new Date(inv.dt); return d >= q.s && d <= q.e && inv.status !== 'draft'; });
-  var inc = invs.reduce(function(s,i) { return s+i.tot; }, 0);
-  var paid = invs.filter(function(i) { return i.status === 'paid'; }).reduce(function(s,i) { return s+i.tot; }, 0);
-  document.getElementById('bas-res').innerHTML =
-    '<div class="stitle">Quarter ' + (i+1) + ' Summary</div>' +
-    '<div class="brow"><span class="brl">Invoices issued</span><span>' + invs.length + '</span></div>' +
-    '<div class="brow"><span class="brl">Total income invoiced</span><span style="color:var(--accent);font-weight:500">' + fmt(inc) + '</span></div>' +
-    '<div class="brow"><span class="brl">Received (paid)</span><span style="color:var(--ok);font-weight:500">' + fmt(paid) + '</span></div>' +
-    '<div class="brow"><span class="brl">Outstanding</span><span>' + fmt(inc - paid) + '</span></div>' +
-    '<div class="brow"><span class="brl">GST collected</span><span>N/A (not registered)</span></div>' +
-    '<div class="brow" style="border-top:2px solid var(--ink);margin-top:8px;padding-top:16px"><span style="font-weight:600">Report income as</span><span style="font-family:\'DM Serif Display\',serif;font-size:22px;color:var(--accent)">' + fmt(inc) + '</span></div>' +
-    '<div style="margin-top:16px;padding:12px 16px;background:var(--paper);border-radius:6px;font-size:12px;color:var(--ink-f)">Not registered for GST -- report total income in your tax return. Consult your accountant for lodgement.</div>';
+function selBQ(i){D._bq=i;rBAS();}
+function showBQ(i){
+  var q=D._bqA[i];
+  var invs=D.invoices.filter(function(inv){var d=new Date(inv.dt);return d>=q.s&&d<=q.e&&inv.status!=='draft';});
+  var inc=invs.reduce(function(s,i){return s+i.tot;},0);
+  var paid=invs.filter(function(i){return i.status==='paid';}).reduce(function(s,i){return s+i.tot;},0);
+  document.getElementById('bas-res').innerHTML=
+    '<div class="stitle">Quarter '+(i+1)+' Summary</div>'+
+    '<div class="brow"><span class="brl">Invoices issued</span><span>'+invs.length+'</span></div>'+
+    '<div class="brow"><span class="brl">Total income invoiced</span><span style="color:var(--accent);font-weight:500">A'+fmt(inc)+'</span></div>'+
+    '<div class="brow"><span class="brl">Received (paid)</span><span style="color:var(--ok);font-weight:500">A'+fmt(paid)+'</span></div>'+
+    '<div class="brow"><span class="brl">Outstanding</span><span>A'+fmt(inc-paid)+'</span></div>'+
+    '<div class="brow" style="border-top:2px solid var(--ink);margin-top:8px;padding-top:16px"><span style="font-weight:600">Report income as</span>'+
+    '<span style="font-family:\'DM Serif Display\',serif;font-size:22px;color:var(--accent)">A'+fmt(inc)+'</span></div>'+
+    '<div style="margin-top:16px;padding:12px 16px;background:var(--paper);border-radius:6px;font-size:12px;color:var(--ink-f)">Not registered for GST -- report total income in your tax return.</div>';
 }
 
-function fmt(n) { return '$' + Number(n||0).toLocaleString('en-AU', {minimumFractionDigits:2, maximumFractionDigits:2}); }
-function fd(d) { if (!d) return '--'; return new Date(d + 'T00:00:00').toLocaleDateString('en-AU', {day:'2-digit', month:'short', year:'numeric'}); }
-function e(s) { if (!s) return ''; return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function gv(id) { var el = document.getElementById(id); return el ? el.value : ''; }
-function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
-function closeMo(id) { document.getElementById(id).classList.remove('on'); }
-function es(t, s) { return '<div class="es"><div class="et">' + t + '</div><div>' + s + '</div></div>'; }
-function toast(msg) {
-  var t = document.createElement('div');
-  t.textContent = msg;
-  t.style.cssText = 'position:fixed;bottom:24px;right:24px;background:var(--ink);color:#fff;padding:10px 18px;border-radius:8px;font-size:13.5px;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.2);transition:opacity .3s;font-family:sans-serif';
+function fmt(n){return '$'+Number(n||0).toLocaleString('en-AU',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function fmtN(n){return Number(n||0).toLocaleString('en-AU',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function fd(d){if(!d)return '--';return new Date(d+'T00:00:00').toLocaleDateString('en-AU',{day:'2-digit',month:'2-digit',year:'numeric'});}
+function e(s){if(!s)return '';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function gv(id){var el=document.getElementById(id);return el?el.value:'';}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2);}
+function closeMo(id){document.getElementById(id).classList.remove('on');}
+function es(t,s){return '<div class="es"><div class="et">'+t+'</div><div>'+s+'</div></div>';}
+function toast(msg){
+  var t=document.createElement('div');t.textContent=msg;
+  t.style.cssText='position:fixed;bottom:24px;right:24px;background:#1a1a2e;color:#fff;padding:10px 18px;border-radius:8px;font-size:13.5px;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.2);transition:opacity .3s;font-family:sans-serif';
   document.body.appendChild(t);
-  setTimeout(function() { t.style.opacity = '0'; setTimeout(function() { t.remove(); }, 300); }, 2200);
+  setTimeout(function(){t.style.opacity='0';setTimeout(function(){t.remove();},300);},2200);
 }
 
-load();
-rDash();
+
+var PW_HASH = '91dd63f59d40cffb785ce6a0cd1016b69b5aed4954c5a1c35882ec5b6f65022d';
+var SESSION_KEY = 'inv_auth';
+
+function sha256(str){
+  var buf = new TextEncoder().encode(str);
+  return crypto.subtle.digest('SHA-256', buf).then(function(hash){
+    return Array.from(new Uint8Array(hash)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');
+  });
+}
+
+function checkPW(){
+  var val = document.getElementById('lk-pw').value;
+  sha256(val).then(function(hash){
+    if(hash === PW_HASH){
+      sessionStorage.setItem(SESSION_KEY, '1');
+      document.getElementById('lockscreen').classList.add('hide');
+    } else {
+      document.getElementById('lk-err').textContent = 'Incorrect password. Please try again.';
+      document.getElementById('lk-pw').value = '';
+      document.getElementById('lk-pw').focus();
+    }
+  });
+}
+
+function checkAuth(){
+  if(sessionStorage.getItem(SESSION_KEY) !== '1'){
+    document.getElementById('lockscreen').classList.remove('hide');
+    setTimeout(function(){ document.getElementById('lk-pw').focus(); }, 100);
+  } else {
+    document.getElementById('lockscreen').classList.add('hide');
+  }
+}
+
+checkAuth();
+load();rDash();
 </script>
 </body>
 </html>
